@@ -2,39 +2,45 @@ package book.ui;
 
 import javax.swing.*;
 import book.entities.Book;
+import book.entities.ReferenceBook;
+import book.entities.TextBook;
 import book.ui.addbook.AddBookFormController;
 import book.ui.getbooklist.MainFormController;
-import book.getbooklist.GetBookListResponseData;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 public class MainForm extends JFrame {
     private JButton addBookButton;
-    private JButton viewBooksButton;
     private AddBookFormController addBookFormController;
     private MainFormController mainFormController;
-    private JList<String> booksList;  // Danh sách để hiển thị tiêu đề sách
+    private JTable booksTable;  // Bảng để hiển thị sách
+    private DefaultTableModel tableModel;
 
     public MainForm(AddBookFormController addBookFormController, MainFormController mainFormController) {
         this.addBookFormController = addBookFormController;
         this.mainFormController = mainFormController;
         initialize();
+
+        // Gọi ngay để lấy danh sách sách và hiển thị
+        mainFormController.loadBooks();  // Gọi loadBooks để lấy và hiển thị sách ngay khi khởi động
     }
 
     private void initialize() {
         setTitle("Hệ Thống Quản Lý Thư Viện");
-        setSize(500, 400);
+        setSize(800, 500);  // Tăng kích thước để chứa bảng
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3, 1, 10, 10));
+        buttonPanel.setLayout(new GridLayout(1, 1, 10, 10));
         buttonPanel.setBackground(Color.WHITE);
 
+        // Nút Thêm Sách
         addBookButton = new JButton("Thêm Sách");
         styleButton(addBookButton);
         addBookButton.addActionListener(new ActionListener() {
@@ -44,17 +50,7 @@ public class MainForm extends JFrame {
             }
         });
 
-        viewBooksButton = new JButton("Xem Sách");
-        styleButton(viewBooksButton);
-        viewBooksButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayBookList(null);  // Lấy và hiển thị sách khi nhấn nút "Xem Sách"
-            }
-        });
-
         buttonPanel.add(addBookButton);
-        buttonPanel.add(viewBooksButton);
 
         add(buttonPanel, BorderLayout.WEST);
 
@@ -63,9 +59,19 @@ public class MainForm extends JFrame {
         titleLabel.setForeground(new Color(0, 102, 204));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Khởi tạo và thêm danh sách sách vào giao diện chính
-        booksList = new JList<>();
-        add(new JScrollPane(booksList), BorderLayout.CENTER);
+        // Khởi tạo bảng và model
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Mã Sách");
+        tableModel.addColumn("Ngày Nhập");
+        tableModel.addColumn("Đơn Giá");
+        tableModel.addColumn("Số Lượng");
+        tableModel.addColumn("Nhà Xuất Bản");
+        tableModel.addColumn("Thuế");
+        tableModel.addColumn("Tình Trạng");
+
+        booksTable = new JTable(tableModel);
+        JScrollPane scrollPane = new JScrollPane(booksTable);
+        add(scrollPane, BorderLayout.CENTER);
 
         setVisible(true);
     }
@@ -92,15 +98,34 @@ public class MainForm extends JFrame {
     }
 
     public void displayBookList(List<Book> books) {
-        // Khởi tạo list model
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-
-        // Duyệt qua danh sách sách và thêm vào list model
+        DefaultTableModel tableModel = (DefaultTableModel) booksTable.getModel();
+        tableModel.setRowCount(0);  // Xóa tất cả dòng cũ trong bảng
+        
         for (Book book : books) {
-            listModel.addElement(book.getBookId());  // Giả sử Book có phương thức getBookId() để lấy ID của sách
+            // Thêm dòng dữ liệu vào bảng
+            Object[] rowData = new Object[7];
+            rowData[0] = book.getBookId();
+            rowData[1] = book.getEntryDate();
+            rowData[2] = book.getUnitPrice();
+            rowData[3] = book.getQuantity();
+            rowData[4] = book.getPublisher();
+            
+            // Kiểm tra loại sách để hiển thị thông tin thuế và tình trạng
+            if (book instanceof ReferenceBook) {
+                rowData[5] = ((ReferenceBook) book).getTax();  // Thuế
+                rowData[6] = "";  // Tình trạng không có
+            } else if (book instanceof TextBook) {
+                rowData[5] = "";  // Thuế không có
+                rowData[6] = ((TextBook) book).getCondition();  // Tình trạng
+            }
+            
+            tableModel.addRow(rowData);  // Thêm vào bảng
         }
-
-        // Cập nhật model của list
-        booksList.setModel(listModel);
+        
+        // Gọi revalidate và repaint để đảm bảo bảng được cập nhật lại đúng cách
+        booksTable.revalidate();
+        booksTable.repaint();
     }
+    
+    
 }

@@ -25,14 +25,18 @@ public class App {
         AddBookFormController addBookFormController = new AddBookFormController(addBookService);
 
         // Khởi tạo các thành phần liên quan đến việc lấy danh sách sách
-        GetBookListOutputBoundary getBookListPresenter = new GetBookListPresenter(new MainForm(addBookFormController, null)); // truyền MainForm vào presenter
+        // Khởi tạo MainFormController trước, truyền vào GetBookListPresenter và MainForm
+        GetBookListOutputBoundary getBookListPresenter = new GetBookListPresenter(null);  // Để null tạm thời
         GetBookListInputBoundary getBookListService = new GetBookListService(repository, getBookListPresenter);
-        
+
         // Khởi tạo MainFormController và liên kết với controller của việc lấy danh sách sách
         MainFormController mainFormController = new MainFormController(getBookListService, getBookListPresenter);
+
+        // Truyền đúng mainFormController vào GetBookListPresenter và MainForm
+        getBookListPresenter = new GetBookListPresenter(new MainForm(addBookFormController, mainFormController));
 
         // Tạo MainForm và hiển thị
         MainForm mainForm = new MainForm(addBookFormController, mainFormController);
         mainForm.setVisible(true);
-    }   
+    }
 }

@@ -10,16 +10,20 @@ public class TextBook extends Book {
 
     public String getCondition() {
         return condition;
-        
     }
 
     public void setCondition(String condition) {
         this.condition = condition;
-        
     }
 
     @Override
     public double calculateTotalPrice() {
         return getCondition().equals("new") ? getQuantity() * getUnitPrice() : getQuantity() * getUnitPrice() * 0.5;
+    }
+
+    // Cập nhật phương thức toString() cho TextBook
+    @Override
+    public String toString() {
+        return super.toString() + ", Tình trạng: " + condition;
     }
 }

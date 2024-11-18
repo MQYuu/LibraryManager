@@ -10,16 +10,20 @@ public class ReferenceBook extends Book {
 
     public double getTax() {
         return tax;
-        
     }
 
     public void setTax(double tax) {
         this.tax = tax;
-        
     }
 
     @Override
     public double calculateTotalPrice() {
         return getQuantity() * getUnitPrice() + getTax();
+    }
+
+    // Cập nhật phương thức toString() cho ReferenceBook
+    @Override
+    public String toString() {
+        return super.toString() + ", Thuế: " + tax;
     }
 }

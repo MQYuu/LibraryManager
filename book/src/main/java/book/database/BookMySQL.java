@@ -92,7 +92,7 @@ public class BookMySQL implements BookDBBoundary {
 
             while (rs.next()) {
                 String bookId = rs.getString("book_id");
-                String entryDate = rs.getString("entry_date");
+                String entryDate = rs.getString("entry_date"); 
                 double unitPrice = rs.getDouble("unit_price");
                 int quantity = rs.getInt("quantity");
                 String publisher = rs.getString("publisher");

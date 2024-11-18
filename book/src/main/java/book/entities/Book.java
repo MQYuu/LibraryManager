@@ -6,7 +6,7 @@ public abstract class Book {
     private double unitPrice;
     private int quantity;
     private String publisher;
-    
+
     public Book(String bookId, String entryDate, double unitPrice, int quantity, String publisher) {
         this.bookId = bookId;
         this.entryDate = entryDate;
@@ -14,7 +14,7 @@ public abstract class Book {
         this.quantity = quantity;
         this.publisher = publisher;
     }
-    
+
     public String getBookId() {
         return bookId;
     }
@@ -55,6 +55,12 @@ public abstract class Book {
         this.publisher = publisher;
     }
 
-
     public abstract double calculateTotalPrice();
+
+    // Cập nhật phương thức toString() để dễ dàng hiển thị thông tin sách
+    @Override
+    public String toString() {
+        return "Mã sách: " + bookId + ", Ngày nhập: " + entryDate + ", Đơn giá: " + unitPrice
+                + ", Số lượng: " + quantity + ", Nhà xuất bản: " + publisher;
+    }
 }

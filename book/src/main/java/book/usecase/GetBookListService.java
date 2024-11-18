@@ -21,8 +21,13 @@ public class GetBookListService implements GetBookListInputBoundary {
     @Override
     public void getBookList() {
         List<Book> books = bookRepository.getAllBooks();
+        System.out.println("Danh sách sách đã lấy từ repository:");
+        for (Book book : books) {
+            System.out.println(book.toString()); // In thông tin sách ra console
+        }
         GetBookListResponseData responseData = new GetBookListResponseData(books);
         outputBoundary.presentBookList(responseData);
+
     }
 }
 
