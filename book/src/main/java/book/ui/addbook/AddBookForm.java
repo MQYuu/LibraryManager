@@ -114,27 +114,33 @@ public class AddBookForm extends JFrame {
         String publisher = publisherField.getText();
         String condition = conditionField.getText();
         double tax = taxField.getText().isEmpty() ? 0 : Double.parseDouble(taxField.getText());
-
+    
         String type = (String) typeComboBox.getSelectedItem();
-
+    
         // If it's a TextBook, ensure condition is filled in
         if ("TextBook".equals(type) && condition.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please specify the condition (new/old) for TextBook.");
             return;
         }
-
+    
         // Validate the entry date format (YYYY-MM-DD)
         if (!isValidDate(entryDate)) {
             JOptionPane.showMessageDialog(this, "Invalid date format. Please use YYYY-MM-DD.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+    
+        // Tạo đối tượng AddBookRequestData và gửi yêu cầu
         AddBookRequestData requestData = new AddBookRequestData(
                 bookId, entryDate, unitPrice, quantity, publisher, type, condition, tax
         );
-
+    
+        // Gọi controller để xử lý việc thêm sách
         controller.submitAddBookForm(requestData);
+    
+        // Đóng form sau khi nhập thành công
+        this.dispose();  // Đóng cửa sổ AddBookForm
     }
+    
 
     // Helper method to check date format
     private boolean isValidDate(String dateStr) {
