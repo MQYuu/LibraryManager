@@ -5,7 +5,6 @@ import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.ui.addbook.AddBookFormController;
-import book.ui.getbooklist.MainFormController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,17 +15,13 @@ import javax.swing.table.DefaultTableModel;
 public class MainForm extends JFrame {
     private JButton addBookButton;
     private AddBookFormController addBookFormController;
-    private MainFormController mainFormController;
     private JTable booksTable;  // Bảng để hiển thị sách
     private DefaultTableModel tableModel;
 
-    public MainForm(AddBookFormController addBookFormController, MainFormController mainFormController) {
+    public MainForm(AddBookFormController addBookFormController) {
         this.addBookFormController = addBookFormController;
-        this.mainFormController = mainFormController;
         initialize();
 
-        // Gọi ngay để lấy danh sách sách và hiển thị
-        mainFormController.loadBooks();  // Gọi loadBooks để lấy và hiển thị sách ngay khi khởi động
     }
 
     private void initialize() {
@@ -126,6 +121,4 @@ public class MainForm extends JFrame {
         booksTable.revalidate();
         booksTable.repaint();
     }
-    
-    
 }

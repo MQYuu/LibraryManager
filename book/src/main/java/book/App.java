@@ -11,8 +11,7 @@ import book.usecase.AddBookService;
 import book.getbooklist.GetBookListPresenter;
 import book.getbooklist.GetBookListInputBoundary;
 import book.getbooklist.GetBookListOutputBoundary;
-import book.usecase.GetBookListService;  
-
+import book.usecase.GetBookListService;
 
 public class App {
     public static void main(String[] args) {
@@ -25,18 +24,25 @@ public class App {
         AddBookFormController addBookFormController = new AddBookFormController(addBookService);
 
         // Khởi tạo các thành phần liên quan đến việc lấy danh sách sách
-        // Khởi tạo MainFormController trước, truyền vào GetBookListPresenter và MainForm
-        GetBookListOutputBoundary getBookListPresenter = new GetBookListPresenter(null);  // Để null tạm thời
+        GetBookListOutputBoundary getBookListPresenter = null;  // Trước tiên, set null
         GetBookListInputBoundary getBookListService = new GetBookListService(repository, getBookListPresenter);
 
+        // Tạo MainForm và truyền AddBookFormController vào
+        MainForm mainForm = new MainForm(addBookFormController);
+
+        // Khởi tạo GetBookListPresenter sau khi MainForm đã được tạo
+        getBookListPresenter = new GetBookListPresenter(mainForm);
+
+        // Cập nhật GetBookListPresenter vào GetBookListService
+        getBookListService = new GetBookListService(repository, getBookListPresenter);
+
         // Khởi tạo MainFormController và liên kết với controller của việc lấy danh sách sách
-        MainFormController mainFormController = new MainFormController(getBookListService, getBookListPresenter);
+        MainFormController mainFormController = new MainFormController(getBookListService);
 
-        // Truyền đúng mainFormController vào GetBookListPresenter và MainForm
-        getBookListPresenter = new GetBookListPresenter(new MainForm(addBookFormController, mainFormController));
+        // Gọi loadBooks để tải sách
+        mainFormController.loadBooks();
 
-        // Tạo MainForm và hiển thị
-        MainForm mainForm = new MainForm(addBookFormController, mainFormController);
+        // Hiển thị MainForm
         mainForm.setVisible(true);
     }
 }

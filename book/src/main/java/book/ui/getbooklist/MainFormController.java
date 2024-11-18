@@ -1,18 +1,15 @@
 package book.ui.getbooklist;
 
 import book.getbooklist.GetBookListInputBoundary;
-import book.getbooklist.GetBookListOutputBoundary;
 
 public class MainFormController {
-    private GetBookListInputBoundary getBooksService;
-    private GetBookListOutputBoundary presenter;  // Để trình bày kết quả
+    private GetBookListInputBoundary getBookListInputBoundary;
 
-    public MainFormController(GetBookListInputBoundary getBooksService, GetBookListOutputBoundary presenter) {
-        this.getBooksService = getBooksService;
-        this.presenter = presenter;
+    public MainFormController(GetBookListInputBoundary getBookListInputBoundary) {
+        this.getBookListInputBoundary = getBookListInputBoundary;
     }
 
     public void loadBooks() {
-        getBooksService.getBookList();  // Gọi use case để lấy danh sách sách
+        getBookListInputBoundary.getBookList();  // Gọi use case để lấy danh sách sách
     }
 }
