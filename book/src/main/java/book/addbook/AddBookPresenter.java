@@ -1,6 +1,6 @@
 package book.addbook;
 
-import book.ui.AddBookResultForm;
+import book.ui.addbook.AddBookResultForm;
 
 public class AddBookPresenter implements AddBookOutputBoundary{
         private AddBookResultForm resultForm;

@@ -1,4 +1,4 @@
-package book.ui;
+package book.ui.addbook;
 
 import book.addbook.AddBookInputBoundary;
 import book.addbook.AddBookRequestData;

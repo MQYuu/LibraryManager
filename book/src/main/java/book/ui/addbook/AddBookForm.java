@@ -1,4 +1,4 @@
-package book.ui;
+package book.ui.addbook;
 
 import javax.swing.*;
 

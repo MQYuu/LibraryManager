@@ -1,37 +1,41 @@
 package book.ui;
 
 import javax.swing.*;
+import book.entities.Book;
+import book.ui.addbook.AddBookFormController;
+import book.ui.getbooklist.MainFormController;
+import book.getbooklist.GetBookListResponseData;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class MainForm extends JFrame {
     private JButton addBookButton;
     private JButton viewBooksButton;
     private AddBookFormController addBookFormController;
+    private MainFormController mainFormController;
+    private JList<String> booksList;  // Danh sách để hiển thị tiêu đề sách
 
-    public MainForm(AddBookFormController addBookFormController) {
+    public MainForm(AddBookFormController addBookFormController, MainFormController mainFormController) {
         this.addBookFormController = addBookFormController;
+        this.mainFormController = mainFormController;
         initialize();
     }
 
     private void initialize() {
-        // Set up the main window
-        setTitle("Library Management System");
-        setSize(500, 300);  // Increased size for better visibility
+        setTitle("Hệ Thống Quản Lý Thư Viện");
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-        // Set the layout manager
         setLayout(new BorderLayout());
 
-        // Create a panel to hold buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3, 1, 10, 10)); // GridLayout with 3 rows and 1 column, space between buttons
+        buttonPanel.setLayout(new GridLayout(3, 1, 10, 10));
         buttonPanel.setBackground(Color.WHITE);
 
-        // Add "Add Book" button with custom styling
-        addBookButton = new JButton("Add Book");
+        addBookButton = new JButton("Thêm Sách");
         styleButton(addBookButton);
         addBookButton.addActionListener(new ActionListener() {
             @Override
@@ -40,59 +44,63 @@ public class MainForm extends JFrame {
             }
         });
 
-        // Add "View Books" button with custom styling
-        viewBooksButton = new JButton("View Books");
+        viewBooksButton = new JButton("Xem Sách");
         styleButton(viewBooksButton);
         viewBooksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add functionality to view books if needed
-                JOptionPane.showMessageDialog(MainForm.this, "View Books functionality to be implemented.");
+                displayBookList(null);  // Lấy và hiển thị sách khi nhấn nút "Xem Sách"
             }
         });
 
-        // Add buttons to the panel
         buttonPanel.add(addBookButton);
         buttonPanel.add(viewBooksButton);
 
-        // Add panel to the main window
-        add(buttonPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.WEST);
 
-        // Add a label at the top for the title or introduction
-        JLabel titleLabel = new JLabel("Welcome to Library Management", JLabel.CENTER);
+        JLabel titleLabel = new JLabel("Chào Mừng Bạn Đến Hệ Thống Quản Lý Thư Viện", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        titleLabel.setForeground(new Color(0, 102, 204));  // Set color for the title
+        titleLabel.setForeground(new Color(0, 102, 204));
         add(titleLabel, BorderLayout.NORTH);
 
-        // Display the main form
+        // Khởi tạo và thêm danh sách sách vào giao diện chính
+        booksList = new JList<>();
+        add(new JScrollPane(booksList), BorderLayout.CENTER);
+
         setVisible(true);
     }
 
     private void styleButton(JButton button) {
-        // Set button font, color, and shape
         button.setFont(new Font("Arial", Font.PLAIN, 16));
-        button.setBackground(new Color(70, 130, 180)); // Set button color
-        button.setForeground(Color.WHITE);  // Set text color
-        button.setFocusPainted(false);  // Remove focus outline
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(70, 130, 180), 2),
                 BorderFactory.createEmptyBorder(10, 20, 10, 20)
         ));
         button.setPreferredSize(new Dimension(200, 50));
-
-        // Add hover effect
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(100, 150, 200));  // Lighter shade on hover
+                button.setBackground(new Color(100, 150, 200));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(70, 130, 180));  // Original color
+                button.setBackground(new Color(70, 130, 180));
             }
         });
-
-        // Add rounded corners (using a custom border)
         button.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 2, true));
     }
 
-}
+    public void displayBookList(List<Book> books) {
+        // Khởi tạo list model
+        DefaultListModel<String> listModel = new DefaultListModel<>();
 
+        // Duyệt qua danh sách sách và thêm vào list model
+        for (Book book : books) {
+            listModel.addElement(book.getBookId());  // Giả sử Book có phương thức getBookId() để lấy ID của sách
+        }
+
+        // Cập nhật model của list
+        booksList.setModel(listModel);
+    }
+}
