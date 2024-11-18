@@ -1,6 +1,7 @@
 package book.ui;
 
 import javax.swing.*;
+
 import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
@@ -122,4 +123,5 @@ public class MainForm extends JFrame {
         booksTable.revalidate();
         booksTable.repaint();
     }
+
 }
