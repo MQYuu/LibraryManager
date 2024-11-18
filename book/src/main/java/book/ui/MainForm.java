@@ -92,6 +92,7 @@ public class MainForm extends JFrame {
         button.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 2, true));
     }
 
+    // phương thức hiển thị danh sách sách lên giao diện
     public void displayBookList(List<Book> books) {
         DefaultTableModel tableModel = (DefaultTableModel) booksTable.getModel();
         tableModel.setRowCount(0);  // Xóa tất cả dòng cũ trong bảng
