@@ -1,6 +1,6 @@
 package book.getbooklist;
 
-import book.ui.MainForm;
+import book.ui.getbooklist.MainForm;
 
 public class GetBookListPresenter implements GetBookListOutputBoundary {
     private MainForm mainForm;
