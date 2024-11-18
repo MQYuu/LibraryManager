@@ -1,10 +1,11 @@
 package book.usecase;
 
-import book.addbookinterface.AddBookInputBoundary;
-import book.addbookinterface.AddBookOutputBoundary;
-import book.addbookinterface.AddBookRequestData;
-import book.addbookinterface.AddBookResponseData;
-import book.entities.AddBook;
+import book.addbook.AddBookInputBoundary;
+import book.addbook.AddBookOutputBoundary;
+import book.addbook.AddBookRequestData;
+import book.addbook.AddBookResponseData;
+import book.database.BookRepository;
+import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
 
@@ -19,7 +20,7 @@ public class AddBookService implements AddBookInputBoundary {
 
     @Override
     public void executeAdd(AddBookRequestData requestData) {
-        AddBook book;
+        Book book;
         if ("TextBook".equals(requestData.getType())) {
             book = new TextBook(requestData.getBookId(), requestData.getEntryDate(), requestData.getUnitPrice(), requestData.getQuantity(), requestData.getPublisher(), requestData.getCondition());
         } else {

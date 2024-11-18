@@ -1,16 +1,16 @@
 package book;
 
-import book.addbookinterface.AddBookPresenter;
-import book.database.AddBookMySQL;
+import book.addbook.AddBookPresenter;
+import book.database.BookMySQL;
+import book.database.BookRepository;
 import book.ui.AddBookFormController;
 import book.ui.AddBookResultForm;
 import book.ui.MainForm;
 import book.usecase.AddBookService;
-import book.usecase.BookRepository;
 
 public class App {
         public static void main(String[] args) {
-        AddBookMySQL db = new AddBookMySQL();
+        BookMySQL db = new BookMySQL();
         BookRepository repository = new BookRepository(db);
         AddBookResultForm resultForm = new AddBookResultForm();
         AddBookPresenter presenter = new AddBookPresenter(resultForm);

@@ -1,7 +1,7 @@
 package book.ui;
 
-import book.addbookinterface.AddBookInputBoundary;
-import book.addbookinterface.AddBookRequestData;
+import book.addbook.AddBookInputBoundary;
+import book.addbook.AddBookRequestData;
 
 public class AddBookFormController {
     private AddBookInputBoundary addBookInputBoundary;

@@ -1,6 +1,6 @@
 package book.entities;
 
-public class ReferenceBook extends AddBook {
+public class ReferenceBook extends Book {
     private double tax;
 
     public ReferenceBook(String bookId, String entryDate, double unitPrice, int quantity, String publisher, double tax) {

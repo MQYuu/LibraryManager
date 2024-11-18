@@ -5,11 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import book.addbookinterface.AddBookPresenter;
-import book.database.AddBookMySQL;
-import book.usecase.AddBookService;
-import book.usecase.BookRepository;
-
 public class MainForm extends JFrame {
     private JButton addBookButton;
     private JButton viewBooksButton;
