@@ -6,6 +6,7 @@ import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.ui.addbook.AddBookFormController;
+import book.ui.editbook.EditBookFormController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,14 +16,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class MainForm extends JFrame {
     private JButton addBookButton;
+    private JButton editBookButton;
     private AddBookFormController addBookFormController;
+    private EditBookFormController editBookFormController;
     private JTable booksTable;  // Bảng để hiển thị sách
     private DefaultTableModel tableModel;
 
-    public MainForm(AddBookFormController addBookFormController) {
+    public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController) {
         this.addBookFormController = addBookFormController;
+        this.editBookFormController = editBookFormController;
         initialize();
-
     }
 
     private void initialize() {
@@ -33,7 +36,7 @@ public class MainForm extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1, 1, 10, 10));
+        buttonPanel.setLayout(new GridLayout(2, 1, 10, 10));
         buttonPanel.setBackground(Color.WHITE);
 
         // Nút Thêm Sách
@@ -46,7 +49,25 @@ public class MainForm extends JFrame {
             }
         });
 
+        // Nút Sửa Sách
+        editBookButton = new JButton("Sửa Sách");
+        styleButton(editBookButton);
+        editBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = booksTable.getSelectedRow();
+                if (selectedRow >= 0) {
+                    String bookId = (String) booksTable.getValueAt(selectedRow, 0);
+                    editBookFormController.displayEditBookForm(bookId);
+                } else {
+                    JOptionPane.showMessageDialog(MainForm.this, "Vui lòng chọn một sách để chỉnh sửa.");
+                }
+            }
+        });
+        
+
         buttonPanel.add(addBookButton);
+        buttonPanel.add(editBookButton);
 
         add(buttonPanel, BorderLayout.WEST);
 
@@ -97,7 +118,7 @@ public class MainForm extends JFrame {
     public void displayBookList(List<Book> books) {
         DefaultTableModel tableModel = (DefaultTableModel) booksTable.getModel();
         tableModel.setRowCount(0);  // Xóa tất cả dòng cũ trong bảng
-        
+
         for (Book book : books) {
             // Thêm dòng dữ liệu vào bảng
             Object[] rowData = new Object[7];
@@ -106,7 +127,7 @@ public class MainForm extends JFrame {
             rowData[2] = book.getUnitPrice();
             rowData[3] = book.getQuantity();
             rowData[4] = book.getPublisher();
-            
+
             // Kiểm tra loại sách để hiển thị thông tin thuế và tình trạng
             if (book instanceof ReferenceBook) {
                 rowData[5] = ((ReferenceBook) book).getTax();  // Thuế
@@ -115,13 +136,12 @@ public class MainForm extends JFrame {
                 rowData[5] = "";  // Thuế không có
                 rowData[6] = ((TextBook) book).getCondition();  // Tình trạng
             }
-            
+
             tableModel.addRow(rowData);  // Thêm vào bảng
         }
-        
+
         // Gọi revalidate và repaint để đảm bảo bảng được cập nhật lại đúng cách
         booksTable.revalidate();
         booksTable.repaint();
     }
-
 }

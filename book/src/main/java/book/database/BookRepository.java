@@ -2,6 +2,7 @@ package book.database;
 
 import java.util.List;
 
+import book.editbook.EditBookRequestData;
 import book.entities.Book;
 
     public class BookRepository {
@@ -17,5 +18,8 @@ import book.entities.Book;
 
     public List<Book> getAllBooks() {
         return database.getAllBooks();
+    }
+    public void editBook(EditBookRequestData editBookRequestData) {
+        database.updateBook(editBookRequestData); // Gọi đến updateBook trong BookDBBoundary
     }
 }

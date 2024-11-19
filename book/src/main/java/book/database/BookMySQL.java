@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import book.editbook.EditBookRequestData;
 import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
@@ -113,5 +114,38 @@ public class BookMySQL implements BookDBBoundary {
             e.printStackTrace();
         }
         return books;
+    }
+
+    @Override
+    public void updateBook(EditBookRequestData editBookRequestData) {
+        String sql = "UPDATE books SET entry_date = ?, unit_price = ?, quantity = ?, publisher = ?, conditionBook = ?, tax = ? WHERE book_id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, editBookRequestData.getEntryDate());
+            pstmt.setDouble(2, editBookRequestData.getUnitPrice());
+            pstmt.setInt(3, editBookRequestData.getQuantity());
+            pstmt.setString(4, editBookRequestData.getPublisher());
+
+            // Set condition or tax based on book type
+            if (editBookRequestData.getCondition() != null) {
+                pstmt.setString(5, editBookRequestData.getCondition()); // condition cho TextBook
+                pstmt.setNull(6, java.sql.Types.DOUBLE); // không dùng tax cho TextBook
+            } else {
+                pstmt.setNull(5, java.sql.Types.VARCHAR); // không dùng condition cho ReferenceBook
+                pstmt.setDouble(6, editBookRequestData.getTax()); // tax cho ReferenceBook
+            }
+
+            pstmt.setString(7, editBookRequestData.getBookId());
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Book updated in the database.");
+            } else {
+                System.out.println("Failed to update the book.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
