@@ -10,6 +10,7 @@ import book.ui.printbook.PrintBookFormController;
 import book.ui.searchbook.SearchBookFormController;
 import book.ui.deletebook.DeleteBookFormController;
 import book.ui.totalbookprice.TotalBookPriceFormController;
+import book.ui.averageunitprice.AverageUnitPriceFormController; // Thêm controller cho tính trung bình đơn giá
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,13 +25,15 @@ public class MainForm extends JFrame {
     private JButton searchBookButton;
     private JButton printBookButton;
     private JButton calculateTotalPriceButton; // Nút tính tổng giá sách
+    private JButton calculateAverageUnitPriceButton; // Nút tính trung bình đơn giá sách tham khảo
 
     private AddBookFormController addBookFormController;
     private EditBookFormController editBookFormController;
     private DeleteBookFormController deleteBookFormController;
     private SearchBookFormController searchBookFormController;
     private PrintBookFormController printBookFormController;
-    private TotalBookPriceFormController totalBookPriceFormController; // Đối tượng TotalBookPriceFormController
+    private TotalBookPriceFormController totalBookPriceFormController;
+    private AverageUnitPriceFormController averageUnitPriceFormController; // Controller mới cho tính trung bình đơn giá
 
     private JTable booksTable;
     private DefaultTableModel tableModel;
@@ -38,13 +41,15 @@ public class MainForm extends JFrame {
     public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController,
             DeleteBookFormController deleteBookFormController, SearchBookFormController searchBookFormController,
             PrintBookFormController printBookFormController,
-            TotalBookPriceFormController totalBookPriceFormController) {
+            TotalBookPriceFormController totalBookPriceFormController,
+            AverageUnitPriceFormController averageUnitPriceFormController) { // Thêm tham số cho AverageUnitPriceFormController
         this.addBookFormController = addBookFormController;
         this.editBookFormController = editBookFormController;
         this.deleteBookFormController = deleteBookFormController;
         this.searchBookFormController = searchBookFormController;
         this.printBookFormController = printBookFormController;
-        this.totalBookPriceFormController = totalBookPriceFormController; // Khởi tạo TotalBookPriceFormController
+        this.totalBookPriceFormController = totalBookPriceFormController;
+        this.averageUnitPriceFormController = averageUnitPriceFormController; // Khởi tạo controller mới
         initialize();
     }
 
@@ -56,7 +61,7 @@ public class MainForm extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(6, 1, 10, 10));
+        buttonPanel.setLayout(new GridLayout(7, 1, 10, 10)); // Thêm 1 hàng cho nút mới
         buttonPanel.setBackground(Color.WHITE);
 
         // Nút Thêm Sách
@@ -125,12 +130,23 @@ public class MainForm extends JFrame {
             }
         });
 
+        // Nút Tính Trung Bình Đơn Giá Sách Tham Khảo
+        calculateAverageUnitPriceButton = new JButton("Tính Trung Bình Đơn Giá Sách Tham Khảo");
+        styleButton(calculateAverageUnitPriceButton);
+        calculateAverageUnitPriceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                averageUnitPriceFormController.calculateAverageUnitPrice(); // Gọi phương thức tính trung bình đơn giá sách tham khảo
+            }
+        });
+
         buttonPanel.add(addBookButton);
         buttonPanel.add(editBookButton);
         buttonPanel.add(deleteBookButton);
         buttonPanel.add(searchBookButton);
         buttonPanel.add(printBookButton);
         buttonPanel.add(calculateTotalPriceButton); // Thêm nút tính tổng giá sách vào panel
+        buttonPanel.add(calculateAverageUnitPriceButton); // Thêm nút tính trung bình đơn giá sách tham khảo
 
         add(buttonPanel, BorderLayout.WEST);
 

@@ -6,6 +6,7 @@ import book.database.BookRepository;
 import book.addbook.AddBookPresenter;
 import book.ui.addbook.AddBookFormController;
 import book.ui.addbook.AddBookResultForm;
+
 import book.usecase.AddBookService;
 
 import book.deletebook.DeleteBookPresenter;
@@ -17,8 +18,6 @@ import book.ui.editbook.EditBookFormController;
 import book.usecase.EditBookService;
 
 import book.usecase.GetBookListService;
-import book.usecase.PrintBookService;
-import book.usecase.TotalBookPriceService;  // Import thêm TotalBookPriceService
 import book.ui.getbooklist.MainForm;
 import book.ui.getbooklist.MainFormController;
 import book.getbooklist.GetBookListPresenter;
@@ -27,6 +26,7 @@ import book.searchbook.SearchBookPresenter;
 import book.ui.searchbook.SearchBookFormController;
 import book.usecase.SearchBookService;
 
+import book.usecase.PrintBookService;
 import book.printbooklist.PrintBookListInputBoundary;
 import book.printbooklist.PrintBookOutputBoundary;
 import book.printbooklist.PrintBookPresenter;
@@ -37,7 +37,13 @@ import book.totalbookprice.TotalBookPriceInputBoundary;
 import book.totalbookprice.TotalBookPriceOutputBoundary;
 import book.totalbookprice.TotalBookPricePresenter;
 import book.ui.totalbookprice.TotalBookPriceFormController; // Import thêm TotalBookPriceFormController
+import book.usecase.TotalBookPriceService;  // Import thêm TotalBookPriceService
 import book.ui.totalbookprice.TotalBookPriceResultForm;
+
+import book.ui.averageunitprice.AverageUnitPriceFormController; // Import AverageUnitPriceFormController
+import book.ui.averageunitprice.AverageUnitPriceResultForm;
+import book.usecase.AverageUnitPriceService;  // Import AverageUnitPriceService
+import book.averageunitprice.AverageUnitPricePresenter; // Import AverageUnitPricePresenter
 
 public class App {
     public static void main(String[] args) {
@@ -57,6 +63,9 @@ public class App {
         // Khởi tạo TotalBookPriceFormController và các thành phần liên quan đến tính tổng giá sách
         TotalBookPriceFormController totalBookPriceFormController = createTotalBookPriceController(repository);
 
+        // Khởi tạo AverageUnitPriceFormController và các thành phần liên quan đến tính trung bình đơn giá sách tham khảo
+        AverageUnitPriceFormController averageUnitPriceFormController = createAverageUnitPriceController(repository);
+
         // Tạo MainForm và liên kết với các controller
         MainForm mainForm = new MainForm(
                 addBookFormController, 
@@ -64,7 +73,8 @@ public class App {
                 deleteBookFormController,
                 searchBookFormController, 
                 printBookFormController,
-                totalBookPriceFormController // Thêm TotalBookPriceFormController vào MainForm
+                totalBookPriceFormController, // Thêm TotalBookPriceFormController vào MainForm
+                averageUnitPriceFormController // Thêm AverageUnitPriceFormController vào MainForm
         );
 
         // Tạo và khởi tạo GetBookListService
@@ -121,4 +131,18 @@ public class App {
         TotalBookPriceInputBoundary totalBookPriceService = new TotalBookPriceService(repository, totalBookPriceOutputBoundary);
         return new TotalBookPriceFormController(totalBookPriceService);
     }
+
+    // Phương thức tạo AverageUnitPriceFormController
+private static AverageUnitPriceFormController createAverageUnitPriceController(BookRepository repository) {
+    // Tạo form kết quả
+    AverageUnitPriceResultForm averageUnitPriceResultForm = new AverageUnitPriceResultForm();
+    
+    // Tạo presenter với form kết quả
+    AverageUnitPricePresenter averageUnitPricePresenter = new AverageUnitPricePresenter(averageUnitPriceResultForm);
+    
+    // Tạo dịch vụ và controller
+    AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(repository, averageUnitPricePresenter);
+    return new AverageUnitPriceFormController(averageUnitPriceService);
+}
+
 }
