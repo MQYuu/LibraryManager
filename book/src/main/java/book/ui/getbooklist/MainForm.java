@@ -9,6 +9,7 @@ import book.ui.editbook.EditBookFormController;
 import book.ui.printbook.PrintBookFormController;
 import book.ui.searchbook.SearchBookFormController;
 import book.ui.deletebook.DeleteBookFormController;
+import book.ui.totalbookprice.TotalBookPriceFormController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,39 +20,42 @@ import javax.swing.table.DefaultTableModel;
 public class MainForm extends JFrame {
     private JButton addBookButton;
     private JButton editBookButton;
-    private JButton deleteBookButton; // Nút xóa sách
+    private JButton deleteBookButton;
     private JButton searchBookButton;
-    private JButton printBookButton; // Nút in sách
+    private JButton printBookButton;
+    private JButton calculateTotalPriceButton; // Nút tính tổng giá sách
 
     private AddBookFormController addBookFormController;
     private EditBookFormController editBookFormController;
-    private DeleteBookFormController deleteBookFormController; // Đối tượng DeleteBookFormController
-    private SearchBookFormController searchBookFormController; // Đối tượng SearchBookFormController
+    private DeleteBookFormController deleteBookFormController;
+    private SearchBookFormController searchBookFormController;
     private PrintBookFormController printBookFormController;
+    private TotalBookPriceFormController totalBookPriceFormController; // Đối tượng TotalBookPriceFormController
 
-    private JTable booksTable; // Bảng để hiển thị sách
+    private JTable booksTable;
     private DefaultTableModel tableModel;
 
     public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController,
-            DeleteBookFormController deleteBookFormController, SearchBookFormController searchBookFormController,
-            PrintBookFormController printBookFormController) {
+                    DeleteBookFormController deleteBookFormController, SearchBookFormController searchBookFormController,
+                    PrintBookFormController printBookFormController, TotalBookPriceFormController totalBookPriceFormController) {
         this.addBookFormController = addBookFormController;
         this.editBookFormController = editBookFormController;
-        this.deleteBookFormController = deleteBookFormController; // Khởi tạo DeleteBookFormController
-        this.searchBookFormController = searchBookFormController; // Khởi tạo SearchBookFormController
-        this.printBookFormController = printBookFormController; // Khởi tạo PrintBookFormController
+        this.deleteBookFormController = deleteBookFormController;
+        this.searchBookFormController = searchBookFormController;
+        this.printBookFormController = printBookFormController;
+        this.totalBookPriceFormController = totalBookPriceFormController; // Khởi tạo TotalBookPriceFormController
         initialize();
     }
 
     private void initialize() {
         setTitle("Hệ Thống Quản Lý Thư Viện");
-        setSize(800, 500); // Tăng kích thước để chứa bảng
+        setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(5, 1, 10, 10)); // Thêm một dòng nữa cho nút tìm kiếm
+        buttonPanel.setLayout(new GridLayout(6, 1, 10, 10));
         buttonPanel.setBackground(Color.WHITE);
 
         // Nút Thêm Sách
@@ -86,7 +90,6 @@ public class MainForm extends JFrame {
         deleteBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Gọi phương thức mở form xóa sách
                 deleteBookFormController.openDeleteBookForm();
             }
         });
@@ -97,7 +100,7 @@ public class MainForm extends JFrame {
         searchBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchBookFormController.openSearchBookForm(); // Gọi Controller để mở form tìm kiếm
+                searchBookFormController.openSearchBookForm();
             }
         });
 
@@ -107,15 +110,26 @@ public class MainForm extends JFrame {
         printBookButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                printBookFormController.printBook(); // Gọi phương thức in từ PrintBookFormController
+                printBookFormController.printBook();
+            }
+        });
+
+        // Nút Tính Tổng Giá Sách
+        calculateTotalPriceButton = new JButton("Tính Tổng Giá Sách");
+        styleButton(calculateTotalPriceButton);
+        calculateTotalPriceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                totalBookPriceFormController.calculateTotalBookPrice(); // Gọi phương thức tính tổng giá sách
             }
         });
 
         buttonPanel.add(addBookButton);
         buttonPanel.add(editBookButton);
-        buttonPanel.add(deleteBookButton); // Thêm nút xóa vào panel
-        buttonPanel.add(searchBookButton); // Thêm nút tìm kiếm vào panel
-        buttonPanel.add(printBookButton);  // Thêm nút In Sách vào panel
+        buttonPanel.add(deleteBookButton);
+        buttonPanel.add(searchBookButton);
+        buttonPanel.add(printBookButton);
+        buttonPanel.add(calculateTotalPriceButton);  // Thêm nút tính tổng giá sách vào panel
 
         add(buttonPanel, BorderLayout.WEST);
 
@@ -159,16 +173,14 @@ public class MainForm extends JFrame {
                 button.setBackground(new Color(70, 130, 180));
             }
         });
-        button.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 2, true));
     }
 
     // phương thức hiển thị danh sách sách lên giao diện
     public void displayBookList(List<Book> books) {
         DefaultTableModel tableModel = (DefaultTableModel) booksTable.getModel();
-        tableModel.setRowCount(0); // Xóa tất cả dòng cũ trong bảng
+        tableModel.setRowCount(0);
 
         for (Book book : books) {
-            // Thêm dòng dữ liệu vào bảng
             Object[] rowData = new Object[7];
             rowData[0] = book.getBookId();
             rowData[1] = book.getEntryDate();
@@ -176,19 +188,17 @@ public class MainForm extends JFrame {
             rowData[3] = book.getQuantity();
             rowData[4] = book.getPublisher();
 
-            // Kiểm tra loại sách để hiển thị thông tin thuế và tình trạng
             if (book instanceof ReferenceBook) {
-                rowData[5] = ((ReferenceBook) book).getTax(); // Thuế
-                rowData[6] = ""; // Tình trạng không có
+                rowData[5] = ((ReferenceBook) book).getTax();
+                rowData[6] = "";
             } else if (book instanceof TextBook) {
-                rowData[5] = ""; // Thuế không có
-                rowData[6] = ((TextBook) book).getCondition(); // Tình trạng
+                rowData[5] = "";
+                rowData[6] = ((TextBook) book).getCondition();
             }
 
-            tableModel.addRow(rowData); // Thêm vào bảng
+            tableModel.addRow(rowData);
         }
 
-        // Gọi revalidate và repaint để đảm bảo bảng được cập nhật lại đúng cách
         booksTable.revalidate();
         booksTable.repaint();
     }

@@ -18,6 +18,7 @@ import book.usecase.EditBookService;
 
 import book.usecase.GetBookListService;
 import book.usecase.PrintBookService;
+import book.usecase.TotalBookPriceService;  // Import thêm TotalBookPriceService
 import book.ui.getbooklist.MainForm;
 import book.ui.getbooklist.MainFormController;
 import book.getbooklist.GetBookListPresenter;
@@ -32,6 +33,11 @@ import book.printbooklist.PrintBookPresenter;
 import book.ui.printbook.PrintBookFormController;
 import book.ui.printbook.PrintBookResultForm;
 
+import book.totalbookprice.TotalBookPriceInputBoundary;
+import book.totalbookprice.TotalBookPriceOutputBoundary;
+import book.totalbookprice.TotalBookPricePresenter;
+import book.ui.totalbookprice.TotalBookPriceFormController; // Import thêm TotalBookPriceFormController
+import book.ui.totalbookprice.TotalBookPriceResultForm;
 
 public class App {
     public static void main(String[] args) {
@@ -44,12 +50,22 @@ public class App {
         EditBookFormController editBookFormController = createEditBookController(repository);
         DeleteBookFormController deleteBookFormController = createDeleteBookController(repository);
         SearchBookFormController searchBookFormController = createSearchBookController(repository);
+        
         // Khởi tạo PrintBookFormController và các thành phần liên quan đến in sách
         PrintBookFormController printBookFormController = createPrintBookController(repository);
 
+        // Khởi tạo TotalBookPriceFormController và các thành phần liên quan đến tính tổng giá sách
+        TotalBookPriceFormController totalBookPriceFormController = createTotalBookPriceController(repository);
+
         // Tạo MainForm và liên kết với các controller
-        MainForm mainForm = new MainForm(addBookFormController, editBookFormController, deleteBookFormController,
-                searchBookFormController, printBookFormController); // Thêm PrintBookFormController vào MainForm
+        MainForm mainForm = new MainForm(
+                addBookFormController, 
+                editBookFormController, 
+                deleteBookFormController,
+                searchBookFormController, 
+                printBookFormController,
+                totalBookPriceFormController // Thêm TotalBookPriceFormController vào MainForm
+        );
 
         // Tạo và khởi tạo GetBookListService
         GetBookListPresenter getBookListPresenter = new GetBookListPresenter(mainForm);
@@ -95,8 +111,14 @@ public class App {
         PrintBookResultForm printBookResultForm = new PrintBookResultForm();
         PrintBookOutputBoundary printBookOutputBoundary = new PrintBookPresenter(printBookResultForm);
         PrintBookListInputBoundary printBookService = new PrintBookService(repository, printBookOutputBoundary);
-
-        // Trả về PrintBookFormController
         return new PrintBookFormController(printBookService);
+    }
+
+    // Phương thức tạo TotalBookPriceFormController
+    private static TotalBookPriceFormController createTotalBookPriceController(BookRepository repository) {
+        TotalBookPriceResultForm totalBookPriceResultForm = new TotalBookPriceResultForm();
+        TotalBookPriceOutputBoundary totalBookPriceOutputBoundary = new TotalBookPricePresenter(totalBookPriceResultForm);
+        TotalBookPriceInputBoundary totalBookPriceService = new TotalBookPriceService(repository, totalBookPriceOutputBoundary);
+        return new TotalBookPriceFormController(totalBookPriceService);
     }
 }
