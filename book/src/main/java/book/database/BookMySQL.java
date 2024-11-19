@@ -49,8 +49,8 @@ public class BookMySQL implements BookDBBoundary {
         String query = "SELECT * FROM books";
 
         try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
 
             while (rs.next()) {
                 books.add(mapRowToBook(rs));
@@ -65,7 +65,7 @@ public class BookMySQL implements BookDBBoundary {
     public void updateBook(EditBookRequestData editBookRequestData) {
         String sql = "UPDATE books SET entry_date = ?, unit_price = ?, quantity = ?, publisher = ?, conditionBook = ?, tax = ? WHERE book_id = ?";
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, editBookRequestData.getEntryDate());
             pstmt.setDouble(2, editBookRequestData.getUnitPrice());
@@ -100,7 +100,7 @@ public class BookMySQL implements BookDBBoundary {
         String sql = "DELETE FROM books WHERE book_id = ?";
 
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, bookId);
 
@@ -119,7 +119,7 @@ public class BookMySQL implements BookDBBoundary {
     // Phương thức này để xử lý mã lặp lại trong việc thêm sách
     private void executeUpdateBookSQL(String sql, Book book) {
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, book.getBookId());
             pstmt.setString(2, book.getEntryDate());
@@ -151,7 +151,7 @@ public class BookMySQL implements BookDBBoundary {
     // Chuyển một kết quả từ ResultSet thành một đối tượng Book
     private Book mapRowToBook(ResultSet rs) throws SQLException {
         String bookId = rs.getString("book_id");
-        String entryDate = rs.getString("entry_date"); 
+        String entryDate = rs.getString("entry_date");
         double unitPrice = rs.getDouble("unit_price");
         int quantity = rs.getInt("quantity");
         String publisher = rs.getString("publisher");
@@ -165,4 +165,30 @@ public class BookMySQL implements BookDBBoundary {
             return new ReferenceBook(bookId, entryDate, unitPrice, quantity, publisher, tax);
         }
     }
+
+    @Override
+    public List<Book> searchBooksByKeyword(String keyword) {
+        List<Book> books = new ArrayList<>();
+        String sql = "SELECT * FROM books WHERE book_id LIKE ? OR publisher LIKE ? OR conditionBook LIKE ?";
+
+        try (Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            String searchKeyword = "%" + keyword + "%";
+            pstmt.setString(1, searchKeyword);
+            pstmt.setString(2, searchKeyword);
+            pstmt.setString(3, searchKeyword);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(mapRowToBook(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error during book search: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return books;
+    }
+
 }

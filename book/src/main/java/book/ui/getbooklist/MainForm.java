@@ -6,6 +6,7 @@ import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.ui.addbook.AddBookFormController;
 import book.ui.editbook.EditBookFormController;
+import book.ui.searchbook.SearchBookFormController;
 import book.ui.deletebook.DeleteBookFormController;
 
 import java.awt.*;
@@ -18,16 +19,21 @@ public class MainForm extends JFrame {
     private JButton addBookButton;
     private JButton editBookButton;
     private JButton deleteBookButton;  // Nút xóa sách
+    private JButton searchBookButton; 
+
     private AddBookFormController addBookFormController;
     private EditBookFormController editBookFormController;
-    private DeleteBookFormController deleteBookFormController;  // Đối tượng DeleteBookFormController
+    private DeleteBookFormController deleteBookFormController;  // Đối tượng DeleteBookFormController\
+    private SearchBookFormController searchBookFormController;  // Đối tượng SearchBookFormController
+
     private JTable booksTable;  // Bảng để hiển thị sách
     private DefaultTableModel tableModel;
 
-    public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController, DeleteBookFormController deleteBookFormController) {
+    public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController, DeleteBookFormController deleteBookFormController, SearchBookFormController searchBookFormController) {
         this.addBookFormController = addBookFormController;
         this.editBookFormController = editBookFormController;
         this.deleteBookFormController = deleteBookFormController;  // Khởi tạo DeleteBookFormController
+        this.searchBookFormController = searchBookFormController;  // Khởi tạo SearchBookFormController
         initialize();
     }
 
@@ -39,7 +45,7 @@ public class MainForm extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3, 1, 10, 10));  // Thêm một dòng nữa cho nút xóa
+        buttonPanel.setLayout(new GridLayout(4, 1, 10, 10));  // Thêm một dòng nữa cho nút tìm kiếm
         buttonPanel.setBackground(Color.WHITE);
 
         // Nút Thêm Sách
@@ -79,9 +85,20 @@ public class MainForm extends JFrame {
             }
         });
 
+        // Nút Tìm Kiếm Sách
+        searchBookButton = new JButton("Tìm Kiếm Sách");
+        styleButton(searchBookButton);
+        searchBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchBookFormController.openSearchBookForm();  // Gọi Controller để mở form tìm kiếm
+            }
+        });
+
         buttonPanel.add(addBookButton);
         buttonPanel.add(editBookButton);
         buttonPanel.add(deleteBookButton);  // Thêm nút xóa vào panel
+        buttonPanel.add(searchBookButton);  // Thêm nút tìm kiếm vào panel
 
         add(buttonPanel, BorderLayout.WEST);
 

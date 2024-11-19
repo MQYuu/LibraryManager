@@ -20,6 +20,8 @@ public class DeleteBookForm extends JFrame {
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new GridLayout(3, 2, 10, 10));
+        setLocationRelativeTo(null); // Căn giữa cửa sổ trên màn hình
+
 
         add(new JLabel("Book ID:"));
         bookIdField = new JTextField();

@@ -1,6 +1,7 @@
 package book.database;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import book.editbook.EditBookRequestData;
 import book.entities.Book;
@@ -25,5 +26,12 @@ import book.entities.Book;
     public boolean deleteBook(String bookId) {
         bookDBBoundary.deleteBook(bookId);
         return true; // Đây là ví dụ giả sử luôn xóa thành công
+    }
+        // Phương thức tìm kiếm sách theo từ khóa
+    public List<Book> searchBooksByKeyword(String keyword) {
+        // Lấy tất cả sách từ BookDBBoundary và lọc theo từ khóa
+        return bookDBBoundary.getAllBooks().stream()
+            .filter(book -> book.getBookId().contains(keyword) || book.getPublisher().contains(keyword))
+            .collect(Collectors.toList());
     }
 }

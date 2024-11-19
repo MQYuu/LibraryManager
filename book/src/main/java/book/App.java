@@ -8,7 +8,6 @@ import book.ui.addbook.AddBookFormController;
 import book.ui.addbook.AddBookResultForm;
 import book.usecase.AddBookService;
 
-
 import book.deletebook.DeleteBookPresenter;
 import book.ui.deletebook.DeleteBookFormController;
 import book.usecase.DeleteBookService;
@@ -24,6 +23,10 @@ import book.getbooklist.GetBookListPresenter;
 import book.getbooklist.GetBookListOutputBoundary;
 import book.getbooklist.GetBookListInputBoundary;
 
+import book.searchbook.SearchBookPresenter;
+import book.ui.searchbook.SearchBookFormController;
+import book.usecase.SearchBookService;
+
 public class App {
     public static void main(String[] args) {
         // Khởi tạo các thành phần liên quan đến thêm sách
@@ -34,8 +37,8 @@ public class App {
         AddBookService addBookService = new AddBookService(repository, addBookPresenter);
         AddBookFormController addBookFormController = new AddBookFormController(addBookService);
 
-        // Khởi tạo các thành phần liên quan đến việc lấy danh sách sách
-        GetBookListOutputBoundary getBookListPresenter = null;  // Trước tiên, set null
+        // Khởi tạo các thành phần liên quan đến lấy danh sách sách
+        GetBookListOutputBoundary getBookListPresenter = null;  // Để tạm thời là null
         GetBookListInputBoundary getBookListService = new GetBookListService(repository, getBookListPresenter);
 
         // Khởi tạo các thành phần liên quan đến chỉnh sửa sách
@@ -48,8 +51,13 @@ public class App {
         DeleteBookService deleteBookService = new DeleteBookService(repository, deleteBookPresenter);
         DeleteBookFormController deleteBookFormController = new DeleteBookFormController(deleteBookService);
 
+        // Khởi tạo các thành phần liên quan đến tìm kiếm sách
+        SearchBookPresenter searchBookPresenter = new SearchBookPresenter();
+        SearchBookService searchBookService = new SearchBookService(repository, searchBookPresenter);
+        SearchBookFormController searchBookFormController = new SearchBookFormController(searchBookService);
+
         // Tạo MainForm và truyền các controller vào
-        MainForm mainForm = new MainForm(addBookFormController, editBookFormController, deleteBookFormController);
+        MainForm mainForm = new MainForm(addBookFormController, editBookFormController, deleteBookFormController, searchBookFormController);
 
         // Khởi tạo GetBookListPresenter sau khi MainForm đã được tạo
         getBookListPresenter = new GetBookListPresenter(mainForm);
