@@ -6,6 +6,7 @@ import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.ui.addbook.AddBookFormController;
 import book.ui.editbook.EditBookFormController;
+import book.ui.exportbook.ExportBookFormController;
 import book.ui.printbook.PrintBookFormController;
 import book.ui.searchbook.SearchBookFormController;
 import book.ui.deletebook.DeleteBookFormController;
@@ -26,6 +27,7 @@ public class MainForm extends JFrame {
     private JButton printBookButton;
     private JButton calculateTotalPriceButton; // Nút tính tổng giá sách
     private JButton calculateAverageUnitPriceButton; // Nút tính trung bình đơn giá sách tham khảo
+    private JButton exportBooksByPublisherButton; // Nút xuất sách theo nhà xuất bản
 
     private AddBookFormController addBookFormController;
     private EditBookFormController editBookFormController;
@@ -34,6 +36,7 @@ public class MainForm extends JFrame {
     private PrintBookFormController printBookFormController;
     private TotalBookPriceFormController totalBookPriceFormController;
     private AverageUnitPriceFormController averageUnitPriceFormController; // Controller mới cho tính trung bình đơn giá
+    private ExportBookFormController exportBookFormController;
 
     private JTable booksTable;
     private DefaultTableModel tableModel;
@@ -42,7 +45,8 @@ public class MainForm extends JFrame {
             DeleteBookFormController deleteBookFormController, SearchBookFormController searchBookFormController,
             PrintBookFormController printBookFormController,
             TotalBookPriceFormController totalBookPriceFormController,
-            AverageUnitPriceFormController averageUnitPriceFormController) { // Thêm tham số cho AverageUnitPriceFormController
+            AverageUnitPriceFormController averageUnitPriceFormController,
+            ExportBookFormController exportBookFormController) { // Thêm tham số cho AverageUnitPriceFormController
         this.addBookFormController = addBookFormController;
         this.editBookFormController = editBookFormController;
         this.deleteBookFormController = deleteBookFormController;
@@ -50,6 +54,7 @@ public class MainForm extends JFrame {
         this.printBookFormController = printBookFormController;
         this.totalBookPriceFormController = totalBookPriceFormController;
         this.averageUnitPriceFormController = averageUnitPriceFormController; // Khởi tạo controller mới
+        this.exportBookFormController = exportBookFormController;
         initialize();
     }
 
@@ -140,6 +145,17 @@ public class MainForm extends JFrame {
             }
         });
 
+        // Khởi tạo và thêm nút vào MainForm
+        exportBooksByPublisherButton = new JButton("Xuất Sách Theo Nhà Xuất Bản");
+        styleButton(exportBooksByPublisherButton);
+        exportBooksByPublisherButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    exportBookFormController.showExportBookForm();
+            }
+        });
+        
+
         buttonPanel.add(addBookButton);
         buttonPanel.add(editBookButton);
         buttonPanel.add(deleteBookButton);
@@ -147,6 +163,7 @@ public class MainForm extends JFrame {
         buttonPanel.add(printBookButton);
         buttonPanel.add(calculateTotalPriceButton); // Thêm nút tính tổng giá sách vào panel
         buttonPanel.add(calculateAverageUnitPriceButton); // Thêm nút tính trung bình đơn giá sách tham khảo
+        buttonPanel.add(exportBooksByPublisherButton);
 
         add(buttonPanel, BorderLayout.WEST);
 
