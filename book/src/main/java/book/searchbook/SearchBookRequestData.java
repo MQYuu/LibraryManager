@@ -1,13 +1,13 @@
 package book.searchbook;
 
 public class SearchBookRequestData {
-    private String id;
+    private String bookId;
 
-    public SearchBookRequestData(String id) {
-        this.id = id;
+    public SearchBookRequestData(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getBookId() {
-        return id;
+        return bookId;
     }
 }
