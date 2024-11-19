@@ -11,11 +11,11 @@ import book.entities.TextBook;
 
 public class AddBookService implements AddBookInputBoundary {
     private BookRepository bookRepository;
-    private AddBookOutputBoundary outputBoundary;
+    private AddBookOutputBoundary addBookOutputBoundary;
 
-    public AddBookService(BookRepository bookRepository, AddBookOutputBoundary outputBoundary) {
+    public AddBookService(BookRepository bookRepository, AddBookOutputBoundary addBookOutputBoundary) {
         this.bookRepository = bookRepository;
-        this.outputBoundary = outputBoundary;
+        this.addBookOutputBoundary = addBookOutputBoundary;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class AddBookService implements AddBookInputBoundary {
         
         bookRepository.addBook(book);
         AddBookResponseData responseData = new AddBookResponseData("Book added successfully.");
-        outputBoundary.presentResult(responseData);
+        addBookOutputBoundary.presentResult(responseData);
     }
 }
 

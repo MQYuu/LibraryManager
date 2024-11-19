@@ -1,5 +1,5 @@
 package book.addbook;
 
 public interface AddBookOutputBoundary {
-    void presentResult(AddBookResponseData responseData);
+    void presentResult(AddBookResponseData addBookResponseData);
 }

@@ -8,11 +8,11 @@ import book.editbook.EditBookResponseData;
 
 public class EditBookService implements EditBookInputBoundary {
     private BookRepository bookRepository; // Thay đổi sang BookRepository
-    private EditBookOutputBoundary outputBoundary;
+    private EditBookOutputBoundary editBookOutputBoundary;
 
-    public EditBookService(BookRepository bookRepository, EditBookOutputBoundary outputBoundary) {
+    public EditBookService(BookRepository bookRepository, EditBookOutputBoundary editBookOutputBoundary) {
         this.bookRepository = bookRepository;
-        this.outputBoundary = outputBoundary;
+        this.editBookOutputBoundary = editBookOutputBoundary;
     }
 
     @Override
@@ -27,6 +27,6 @@ public class EditBookService implements EditBookInputBoundary {
         );
         
         // Trình bày kết quả
-        outputBoundary.presentEditBookResult(responseData);
+        editBookOutputBoundary.presentEditBookResult(responseData);
     }
 }

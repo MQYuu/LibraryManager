@@ -8,11 +8,11 @@ import book.deletebook.DeleteBookResponseData;
 
 public class DeleteBookService implements DeleteBookInputBoundary {
     private BookRepository bookRepository;
-    private DeleteBookOutputBoundary outputBoundary;
+    private DeleteBookOutputBoundary deleteBookOutputBoundary;
 
-    public DeleteBookService(BookRepository bookRepository, DeleteBookOutputBoundary outputBoundary) {
+    public DeleteBookService(BookRepository bookRepository, DeleteBookOutputBoundary deleteBookOutputBoundary) {
         this.bookRepository = bookRepository;
-        this.outputBoundary = outputBoundary;
+        this.deleteBookOutputBoundary = deleteBookOutputBoundary;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class DeleteBookService implements DeleteBookInputBoundary {
         );
         
         // Trình bày kết quả
-        outputBoundary.presentDeleteBookResult(responseData);
+        deleteBookOutputBoundary.presentDeleteBookResult(responseData);
     }
 }
 
