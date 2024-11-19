@@ -1,12 +1,12 @@
 package book.ui.getbooklist;
 
 import javax.swing.*;
-
 import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.ui.addbook.AddBookFormController;
 import book.ui.editbook.EditBookFormController;
+import book.ui.deletebook.DeleteBookFormController;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,14 +17,17 @@ import javax.swing.table.DefaultTableModel;
 public class MainForm extends JFrame {
     private JButton addBookButton;
     private JButton editBookButton;
+    private JButton deleteBookButton;  // Nút xóa sách
     private AddBookFormController addBookFormController;
     private EditBookFormController editBookFormController;
+    private DeleteBookFormController deleteBookFormController;  // Đối tượng DeleteBookFormController
     private JTable booksTable;  // Bảng để hiển thị sách
     private DefaultTableModel tableModel;
 
-    public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController) {
+    public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController, DeleteBookFormController deleteBookFormController) {
         this.addBookFormController = addBookFormController;
         this.editBookFormController = editBookFormController;
+        this.deleteBookFormController = deleteBookFormController;  // Khởi tạo DeleteBookFormController
         initialize();
     }
 
@@ -36,7 +39,7 @@ public class MainForm extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(2, 1, 10, 10));
+        buttonPanel.setLayout(new GridLayout(3, 1, 10, 10));  // Thêm một dòng nữa cho nút xóa
         buttonPanel.setBackground(Color.WHITE);
 
         // Nút Thêm Sách
@@ -64,10 +67,21 @@ public class MainForm extends JFrame {
                 }
             }
         });
-        
+
+        // Nút Xóa Sách
+        deleteBookButton = new JButton("Xóa Sách");
+        styleButton(deleteBookButton);
+        deleteBookButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Gọi phương thức mở form xóa sách
+                deleteBookFormController.openDeleteBookForm();
+            }
+        });
 
         buttonPanel.add(addBookButton);
         buttonPanel.add(editBookButton);
+        buttonPanel.add(deleteBookButton);  // Thêm nút xóa vào panel
 
         add(buttonPanel, BorderLayout.WEST);
 
