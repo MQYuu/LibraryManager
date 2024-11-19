@@ -17,6 +17,7 @@ import book.ui.editbook.EditBookFormController;
 import book.usecase.EditBookService;
 
 import book.usecase.GetBookListService;
+import book.usecase.PrintBookService;
 import book.ui.getbooklist.MainForm;
 import book.ui.getbooklist.MainFormController;
 import book.getbooklist.GetBookListPresenter;
@@ -24,6 +25,13 @@ import book.getbooklist.GetBookListPresenter;
 import book.searchbook.SearchBookPresenter;
 import book.ui.searchbook.SearchBookFormController;
 import book.usecase.SearchBookService;
+
+import book.printbooklist.PrintBookListInputBoundary;
+import book.printbooklist.PrintBookOutputBoundary;
+import book.printbooklist.PrintBookPresenter;
+import book.ui.printbook.PrintBookFormController;
+import book.ui.printbook.PrintBookResultForm;
+
 
 public class App {
     public static void main(String[] args) {
@@ -36,23 +44,28 @@ public class App {
         EditBookFormController editBookFormController = createEditBookController(repository);
         DeleteBookFormController deleteBookFormController = createDeleteBookController(repository);
         SearchBookFormController searchBookFormController = createSearchBookController(repository);
-        
+
+        // Khởi tạo PrintBookFormController và các thành phần liên quan đến in sách
+        PrintBookFormController printBookFormController = createPrintBookController(repository);
+
         // Tạo MainForm và liên kết với các controller
-        MainForm mainForm = new MainForm(addBookFormController, editBookFormController, deleteBookFormController, searchBookFormController);
-        
+        MainForm mainForm = new MainForm(addBookFormController, editBookFormController, deleteBookFormController,
+                searchBookFormController, printBookFormController); // Thêm PrintBookFormController vào MainForm
+
         // Tạo và khởi tạo GetBookListService
         GetBookListPresenter getBookListPresenter = new GetBookListPresenter(mainForm);
         GetBookListService getBookListService = new GetBookListService(repository, getBookListPresenter);
-        
+
         // Khởi tạo MainFormController
         MainFormController mainFormController = new MainFormController(getBookListService);
-        
+
         // Gọi loadBooks để tải sách và hiển thị MainForm
         mainFormController.loadBooks();
         mainForm.setVisible(true);
     }
 
-    // Các phương thức tạo controller 
+    // Các phương thức tạo controller
+
     private static AddBookFormController createAddBookController(BookRepository repository) {
         AddBookResultForm resultForm = new AddBookResultForm();
         AddBookPresenter addBookPresenter = new AddBookPresenter(resultForm);
@@ -77,5 +90,14 @@ public class App {
         SearchBookService searchBookService = new SearchBookService(repository, searchBookPresenter);
         return new SearchBookFormController(searchBookService);
     }
-}
 
+    // Phương thức tạo PrintBookFormController
+    private static PrintBookFormController createPrintBookController(BookRepository repository) {
+        PrintBookResultForm printBookResultForm = new PrintBookResultForm();
+        PrintBookOutputBoundary printBookOutputBoundary = new PrintBookPresenter(printBookResultForm);
+        PrintBookListInputBoundary printBookService = new PrintBookService(repository, printBookOutputBoundary);
+
+        // Trả về PrintBookFormController
+        return new PrintBookFormController(printBookService);
+    }
+}
