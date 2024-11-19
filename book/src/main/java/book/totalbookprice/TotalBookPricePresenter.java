@@ -3,14 +3,14 @@ package book.totalbookprice;
 import book.ui.totalbookprice.TotalBookPriceResultForm;
 
 public class TotalBookPricePresenter implements TotalBookPriceOutputBoundary {
-    private TotalBookPriceResultForm resultForm;
+    private TotalBookPriceResultForm totalBookPriceResultForm;
 
-    public TotalBookPricePresenter(TotalBookPriceResultForm resultForm) {
-        this.resultForm = resultForm;
+    public TotalBookPricePresenter(TotalBookPriceResultForm totalBookPriceResultForm) {
+        this.totalBookPriceResultForm = totalBookPriceResultForm;
     }
 
     @Override
     public void presentTotalBookPrice(TotalBookPriceResponseData responseData) {
-        resultForm.displayTotalPrice(responseData.getTotalPrice());
+        totalBookPriceResultForm.displayTotalPrice(responseData.getTotalPrice());
     }
 }

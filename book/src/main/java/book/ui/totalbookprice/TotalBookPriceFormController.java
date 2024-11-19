@@ -3,13 +3,13 @@ package book.ui.totalbookprice;
 import book.totalbookprice.TotalBookPriceInputBoundary;
 
 public class TotalBookPriceFormController {
-    private TotalBookPriceInputBoundary inputBoundary;
+    private TotalBookPriceInputBoundary totalBookPriceInputBoundary;
 
-    public TotalBookPriceFormController(TotalBookPriceInputBoundary inputBoundary) {
-        this.inputBoundary = inputBoundary;
+    public TotalBookPriceFormController(TotalBookPriceInputBoundary totalBookPriceInputBoundary) {
+        this.totalBookPriceInputBoundary = totalBookPriceInputBoundary;
     }
 
     public void calculateTotalBookPrice() {
-        inputBoundary.calculateTotalBookPrice();
+        totalBookPriceInputBoundary.calculateTotalBookPrice();
     }
 }

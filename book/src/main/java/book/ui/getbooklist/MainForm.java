@@ -36,8 +36,9 @@ public class MainForm extends JFrame {
     private DefaultTableModel tableModel;
 
     public MainForm(AddBookFormController addBookFormController, EditBookFormController editBookFormController,
-                    DeleteBookFormController deleteBookFormController, SearchBookFormController searchBookFormController,
-                    PrintBookFormController printBookFormController, TotalBookPriceFormController totalBookPriceFormController) {
+            DeleteBookFormController deleteBookFormController, SearchBookFormController searchBookFormController,
+            PrintBookFormController printBookFormController,
+            TotalBookPriceFormController totalBookPriceFormController) {
         this.addBookFormController = addBookFormController;
         this.editBookFormController = editBookFormController;
         this.deleteBookFormController = deleteBookFormController;
@@ -129,7 +130,7 @@ public class MainForm extends JFrame {
         buttonPanel.add(deleteBookButton);
         buttonPanel.add(searchBookButton);
         buttonPanel.add(printBookButton);
-        buttonPanel.add(calculateTotalPriceButton);  // Thêm nút tính tổng giá sách vào panel
+        buttonPanel.add(calculateTotalPriceButton); // Thêm nút tính tổng giá sách vào panel
 
         add(buttonPanel, BorderLayout.WEST);
 

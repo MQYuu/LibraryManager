@@ -1,6 +1,5 @@
 package book.usecase;
 
-
 import book.database.BookRepository;
 import book.entities.Book;
 import book.totalbookprice.TotalBookPriceInputBoundary;
@@ -11,11 +10,11 @@ import java.util.List;
 
 public class TotalBookPriceService implements TotalBookPriceInputBoundary {
     private BookRepository bookRepository;
-    private TotalBookPriceOutputBoundary outputBoundary;
+    private TotalBookPriceOutputBoundary totalBookPriceOutputBoundary;
 
-    public TotalBookPriceService(BookRepository bookRepository, TotalBookPriceOutputBoundary outputBoundary) {
+    public TotalBookPriceService(BookRepository bookRepository, TotalBookPriceOutputBoundary totalBookPriceOutputBoundary) {
         this.bookRepository = bookRepository;
-        this.outputBoundary = outputBoundary;
+        this.totalBookPriceOutputBoundary = totalBookPriceOutputBoundary;
     }
 
     @Override
@@ -28,7 +27,7 @@ public class TotalBookPriceService implements TotalBookPriceInputBoundary {
         }
 
         TotalBookPriceResponseData responseData = new TotalBookPriceResponseData(totalPrice);
-        outputBoundary.presentTotalBookPrice(responseData);
+        totalBookPriceOutputBoundary.presentTotalBookPrice(responseData);
     }
 }
 
