@@ -10,11 +10,11 @@ import book.entities.Book;
 
 public class AverageUnitPriceService implements AverageUnitPriceInputBoundary {
     private BookRepository repository;
-    private AverageUnitPriceOutputBoundary outputBoundary;
+    private AverageUnitPriceOutputBoundary averageUnitPriceOutputBoundary;
 
-    public AverageUnitPriceService(BookRepository repository, AverageUnitPriceOutputBoundary outputBoundary) {
+    public AverageUnitPriceService(BookRepository repository, AverageUnitPriceOutputBoundary averageUnitPriceOutputBoundary) {
         this.repository = repository;
-        this.outputBoundary = outputBoundary;
+        this.averageUnitPriceOutputBoundary = averageUnitPriceOutputBoundary;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class AverageUnitPriceService implements AverageUnitPriceInputBoundary {
 
         double averageUnitPrice = count > 0 ? totalUnitPrice / count : 0;
         AverageUnitPriceResponseData responseData = new AverageUnitPriceResponseData(averageUnitPrice);
-        outputBoundary.presentAverageUnitPriceResult(responseData);
+        averageUnitPriceOutputBoundary.presentAverageUnitPriceResult(responseData);
     }
 }
 

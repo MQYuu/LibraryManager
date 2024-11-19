@@ -3,14 +3,14 @@ package book.averageunitprice;
 import book.ui.averageunitprice.AverageUnitPriceResultForm;
 
 public class AverageUnitPricePresenter implements AverageUnitPriceOutputBoundary {
-    private AverageUnitPriceResultForm resultForm;
+    private AverageUnitPriceResultForm averageUnitPriceResultForm;
 
-    public AverageUnitPricePresenter(AverageUnitPriceResultForm resultForm) {
-        this.resultForm = resultForm;
+    public AverageUnitPricePresenter(AverageUnitPriceResultForm averageUnitPriceResultForm) {
+        this.averageUnitPriceResultForm = averageUnitPriceResultForm;
     }
 
     @Override
     public void presentAverageUnitPriceResult(AverageUnitPriceResponseData responseData) {
-        resultForm.display(responseData);
+        averageUnitPriceResultForm.display(responseData);
     }
 }

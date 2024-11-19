@@ -3,7 +3,8 @@ package book.entities;
 public class ReferenceBook extends Book {
     private double tax;
 
-    public ReferenceBook(String bookId, String entryDate, double unitPrice, int quantity, String publisher, double tax) {
+    public ReferenceBook(String bookId, String entryDate, double unitPrice, int quantity, String publisher,
+            double tax) {
         super(bookId, entryDate, unitPrice, quantity, publisher);
         this.setTax(tax);
     }
