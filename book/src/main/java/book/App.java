@@ -44,7 +44,6 @@ public class App {
         EditBookFormController editBookFormController = createEditBookController(repository);
         DeleteBookFormController deleteBookFormController = createDeleteBookController(repository);
         SearchBookFormController searchBookFormController = createSearchBookController(repository);
-
         // Khởi tạo PrintBookFormController và các thành phần liên quan đến in sách
         PrintBookFormController printBookFormController = createPrintBookController(repository);
 

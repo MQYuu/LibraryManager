@@ -23,7 +23,7 @@ public class PrintBookService implements PrintBookListInputBoundary {
 
     @Override
     public void printBook() {
-        List<Book> books = bookRepository.getAllBooks();  // Giả sử getAllBooks() trả về tất cả sách
+        List<Book> books = bookRepository.getAllBooks();  // getAllBooks() trả về tất cả sách
         List<PrintBookResponseData> printBookResponseDataList = new ArrayList<>();
 
         for (Book book : books) {
