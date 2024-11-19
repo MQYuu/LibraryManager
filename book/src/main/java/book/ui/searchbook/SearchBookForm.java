@@ -22,7 +22,7 @@ public class SearchBookForm extends JFrame {
         setLocationRelativeTo(null); // Căn giữa cửa sổ trên màn hình
 
 
-        add(new JLabel("Keyword:"));
+        add(new JLabel("Nhập id cần tìm:"));
         keywordField = new JTextField(20);
         add(keywordField);
 

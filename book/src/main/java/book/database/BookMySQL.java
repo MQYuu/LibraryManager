@@ -167,28 +167,26 @@ public class BookMySQL implements BookDBBoundary {
     }
 
     @Override
-    public List<Book> searchBooksByKeyword(String keyword) {
+    public List<Book> searchBooksByKeyword(String id) {
         List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM books WHERE book_id LIKE ? OR publisher LIKE ? OR conditionBook LIKE ?";
-
+        // Sửa lại câu lệnh SQL để tìm kiếm chính xác theo book_id
+        String sql = "SELECT * FROM books WHERE book_id = ?";  // Đảm bảo chỉ so sánh với book_id
+    
         try (Connection conn = getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            String searchKeyword = "%" + keyword + "%";
-            pstmt.setString(1, searchKeyword);
-            pstmt.setString(2, searchKeyword);
-            pstmt.setString(3, searchKeyword);
-
+    
+            // Gán giá trị book_id vào PreparedStatement
+            pstmt.setString(1, id);  // Gán giá trị id cho câu lệnh SQL
+    
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    books.add(mapRowToBook(rs));
+                    books.add(mapRowToBook(rs));  // Chuyển kết quả thành đối tượng Book
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error during book search: " + e.getMessage());
             e.printStackTrace();
         }
-        return books;
+        return books;  // Trả về danh sách sách tìm được
     }
-
 }
