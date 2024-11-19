@@ -10,18 +10,18 @@ import java.util.List;
 
 public class SearchBookService implements SearchBookInputBoundary {
     private BookRepository bookRepository;
-    private SearchBookOutputBoundary outputBoundary;
+    private SearchBookOutputBoundary searchBookOutputBoundary;
 
-    public SearchBookService(BookRepository bookRepository, SearchBookOutputBoundary outputBoundary) {
+    public SearchBookService(BookRepository bookRepository, SearchBookOutputBoundary searchBookOutputBoundary) {
         this.bookRepository = bookRepository;
-        this.outputBoundary = outputBoundary;
+        this.searchBookOutputBoundary = searchBookOutputBoundary;
     }
 
     @Override
     public void searchBook(SearchBookRequestData requestData) {
-        String keyword = requestData.getKeyword();
-        List<Book> foundBooks = bookRepository.searchBooksByKeyword(keyword);
+        String bookId = requestData.getBookId();
+        List<Book> foundBooks = bookRepository.searchBooksById(bookId);
         SearchBookResponseData responseData = new SearchBookResponseData(foundBooks);
-        outputBoundary.presentSearchBookResults(responseData);
+        searchBookOutputBoundary.presentSearchBookResults(responseData);
     }
 }

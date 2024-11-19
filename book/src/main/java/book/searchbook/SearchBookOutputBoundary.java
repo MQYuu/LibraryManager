@@ -1,5 +1,5 @@
 package book.searchbook;
 
 public interface SearchBookOutputBoundary {
-    void presentSearchBookResults(SearchBookResponseData responseData);
+    void presentSearchBookResults(SearchBookResponseData searchBookResponseData);
 }

@@ -167,7 +167,7 @@ public class BookMySQL implements BookDBBoundary {
     }
 
     @Override
-    public List<Book> searchBooksByKeyword(String id) {
+    public List<Book> searchBooksById(String id) {
         List<Book> books = new ArrayList<>();
         // Sửa lại câu lệnh SQL để tìm kiếm chính xác theo book_id
         String sql = "SELECT * FROM books WHERE book_id = ?";  // Đảm bảo chỉ so sánh với book_id

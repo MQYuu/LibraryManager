@@ -4,13 +4,13 @@ import book.entities.Book;
 import java.util.List;
 
 public class SearchBookResponseData {
-    private List<Book> foundBooks;
+    private List<Book> foundBookById;
 
-    public SearchBookResponseData(List<Book> foundBooks) {
-        this.foundBooks = foundBooks;
+    public SearchBookResponseData(List<Book> foundBookById) {
+        this.foundBookById = foundBookById;
     }
 
     public List<Book> getFoundBooks() {
-        return foundBooks;
+        return foundBookById;
     }
 }

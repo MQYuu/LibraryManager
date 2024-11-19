@@ -1,13 +1,13 @@
 package book.searchbook;
 
 public class SearchBookRequestData {
-    private String keyword;
+    private String id;
 
-    public SearchBookRequestData(String keyword) {
-        this.keyword = keyword;
+    public SearchBookRequestData(String id) {
+        this.id = id;
     }
 
-    public String getKeyword() {
-        return keyword;
+    public String getBookId() {
+        return id;
     }
 }

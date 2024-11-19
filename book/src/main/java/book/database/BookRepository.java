@@ -27,11 +27,12 @@ import book.entities.Book;
         bookDBBoundary.deleteBook(bookId);
         return true; // Đây là ví dụ giả sử luôn xóa thành công
     }
-        // Phương thức tìm kiếm sách theo từ khóa
-    public List<Book> searchBooksByKeyword(String keyword) {
-        // Lấy tất cả sách từ BookDBBoundary và lọc theo từ khóa
-        return bookDBBoundary.getAllBooks().stream()
-            .filter(book -> book.getBookId().contains(keyword) || book.getPublisher().contains(keyword))
-            .collect(Collectors.toList());
-    }
+        // Phương thức tìm kiếm sách theo id
+        public List<Book> searchBooksById(String bookId) {
+            // Lọc danh sách sách chỉ dựa vào book_id
+            return bookDBBoundary.getAllBooks().stream()
+                .filter(book -> book.getBookId().equals(bookId))  // So sánh chính xác book_id
+                .collect(Collectors.toList());  // Trả về danh sách sách khớp với keyword
+        }
+        
 }
