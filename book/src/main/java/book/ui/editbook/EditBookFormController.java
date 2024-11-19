@@ -15,13 +15,12 @@ public class EditBookFormController {
             editBookService.editBook(requestData);
         }
     
-        // Thêm phương thức displayEditBookForm
         // Phương thức hiển thị form chỉnh sửa sách
         public void displayEditBookForm(String bookId) {
         // Tạo form chỉnh sửa sách và hiển thị
         EditBookForm form = new EditBookForm(this);
 
-        // Hiển thị form mà không điền dữ liệu vào các trường
+        // Hiển thị form 
         form.setVisible(true);
 }
 }
