@@ -23,8 +23,6 @@ import book.entities.Book;
         bookDBBoundary.updateBook(editBookRequestData); // Gọi đến updateBook trong BookDBBoundary
     }
     public boolean deleteBook(String bookId) {
-        // Thực hiện xóa sách từ cơ sở dữ liệu hoặc danh sách
-        // Trả về true nếu thành công, false nếu không tìm thấy sách
         bookDBBoundary.deleteBook(bookId);
         return true; // Đây là ví dụ giả sử luôn xóa thành công
     }

@@ -3,15 +3,15 @@ package book.editbook;
 import book.ui.editbook.EditBookResultForm;
 
 public class EditBookPresenter implements EditBookOutputBoundary {
-    private EditBookResultForm resultForm;
+    private EditBookResultForm editBookResultForm;
 
     public EditBookPresenter() {
-        this.resultForm = new EditBookResultForm();
+        this.editBookResultForm = new EditBookResultForm();
     }
 
     @Override
     public void presentEditBookResult(EditBookResponseData responseData) {
-        resultForm.displayResult(responseData.getMessage(), responseData.isSuccess());
+        editBookResultForm.displayResult(responseData.getMessage(), responseData.isSuccess());
     }
 }
 

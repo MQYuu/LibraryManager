@@ -1,5 +1,5 @@
 package book.getbooklist;
 
 public interface GetBookListOutputBoundary {
-    void presentBookList(GetBookListResponseData responseData);
+    void presentBookList(GetBookListResponseData getBookListResponseData);
 }

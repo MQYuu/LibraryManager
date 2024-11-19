@@ -1,6 +1,6 @@
 package book.editbook;
 
 public interface EditBookInputBoundary {
-    void editBook(EditBookRequestData requestData);
+    void editBook(EditBookRequestData editBookRequestData);
 }
 
