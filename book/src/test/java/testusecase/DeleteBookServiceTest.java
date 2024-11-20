@@ -11,7 +11,7 @@ import book.deletebook.DeleteBookResponseData;
 import book.usecase.DeleteBookService;
 
 public class DeleteBookServiceTest {
-
+    // Test này kiểm tra xem sách có được xóa thành công hay không
     @Test
     public void testDeleteBookSuccess() {
         // Arrange

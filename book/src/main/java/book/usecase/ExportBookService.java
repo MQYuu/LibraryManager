@@ -4,7 +4,6 @@ import java.util.List;
 
 import book.database.BookRepository;
 import book.entities.Book;
-import book.entities.TextBook;
 import book.exportbook.ExportBookInputBoundary;
 import book.exportbook.ExportBookOutputBoundary;
 import book.exportbook.ExportBookRequestData;

@@ -13,4 +13,12 @@ public class SearchBookResponseData {
     public List<Book> getFoundBooks() {
         return foundBookById;
     }
+
+    @Override
+    public String toString() {
+        return "SearchBookResponseData{" +
+                "foundBooks=" + foundBookById+
+                '}';
+    }
+
 }

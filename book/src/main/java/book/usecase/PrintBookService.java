@@ -23,13 +23,20 @@ public class PrintBookService implements PrintBookListInputBoundary {
 
     @Override
     public void printBook() {
-        List<Book> books = bookRepository.getAllBooks();  // getAllBooks() trả về tất cả sách
+        List<Book> books = bookRepository.getAllBooks();
+        if (books == null) {
+            books = new ArrayList<>(); // Tránh NullPointerException
+        }
         List<PrintBookResponseData> printBookResponseDataList = new ArrayList<>();
 
         for (Book book : books) {
+            if (book == null) {
+                continue; // Nếu có bất kỳ sách nào bị null, bỏ qua nó
+            }
+
             // Tạo đối tượng PrintBookResponseData từ thông tin sách
             String bookId = book.getBookId();
-            String entryDate = book.getEntryDate().toString();  // Chuyển ngày nhập thành chuỗi
+            String entryDate = book.getEntryDate().toString(); // Chuyển ngày nhập thành chuỗi
             double unitPrice = book.getUnitPrice();
             int quantity = book.getQuantity();
             String publisher = book.getPublisher();
@@ -44,12 +51,12 @@ public class PrintBookService implements PrintBookListInputBoundary {
             }
 
             // Thêm thông tin sách vào danh sách
-            printBookResponseDataList.add(new PrintBookResponseData(bookId, entryDate, unitPrice, quantity, publisher, tax, condition));
+            printBookResponseDataList
+                    .add(new PrintBookResponseData(bookId, entryDate, unitPrice, quantity, publisher, tax, condition));
         }
 
         // Trình bày kết quả qua giao diện
         printBookOutputBoundary.presentPrintBookResult(printBookResponseDataList);
     }
+
 }
-
-
