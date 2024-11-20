@@ -36,6 +36,7 @@ public class DeleteBookForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String bookId = bookIdField.getText();
                 controller.deleteBook(bookId);
+                dispose();
             }
         });
     }

@@ -34,6 +34,7 @@ public class SearchBookForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String keyword = keywordField.getText();
                 controller.searchBook(keyword);
+                dispose();
             }
         });
     }
