@@ -94,8 +94,9 @@ public class App {
         // Khởi tạo MainFormController
         MainFormController mainFormController = new MainFormController(getBookListService);
 
-        // Gọi loadBooks để tải sách và hiển thị MainForm
+        // Gọi loadBooks để tải sách 
         mainFormController.loadBooks();
+        //Hiển thị MainForm
         mainForm.setVisible(true);
     }
 
