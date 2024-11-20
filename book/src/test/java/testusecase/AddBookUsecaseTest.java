@@ -16,7 +16,7 @@ import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.usecase.AddBookService;
 
-public class TestAddBookUsecase {
+public class AddBookUsecaseTest {
 
     // Hàm trợ giúp để tạo ngày từ chuỗi
     private Date createDateFromString(String dateString) throws Exception {

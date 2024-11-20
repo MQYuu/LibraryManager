@@ -15,18 +15,27 @@ public class EditBookService implements EditBookInputBoundary {
         this.editBookOutputBoundary = editBookOutputBoundary;
     }
 
-    @Override
     public void editBook(EditBookRequestData requestData) {
-        // Gọi phương thức editBook từ BookRepository
-        bookRepository.editBook(requestData);
-        
-        // Giả định việc cập nhật luôn thành công nếu không có lỗi xảy ra
-        EditBookResponseData responseData = new EditBookResponseData(
-                true, 
-                "Update successful."
-        );
-        
-        // Trình bày kết quả
-        editBookOutputBoundary.presentEditBookResult(responseData);
+        try {
+            // Kiểm tra nếu bookId rỗng (dữ liệu không hợp lệ)
+            if (requestData.getBookId() == null || requestData.getBookId().isEmpty()) {
+                EditBookResponseData responseData = new EditBookResponseData(false, "Invalid book ID.");
+                editBookOutputBoundary.presentEditBookResult(responseData);
+                return;
+            }
+    
+            // Gọi phương thức editBook từ BookRepository
+            bookRepository.editBook(requestData);
+            
+            // Giả định việc cập nhật luôn thành công nếu không có lỗi xảy ra
+            EditBookResponseData responseData = new EditBookResponseData(true, "Update successful.");
+            editBookOutputBoundary.presentEditBookResult(responseData);
+        } catch (RuntimeException e) {
+            // Xử lý khi có lỗi trong quá trình cập nhật sách
+            EditBookResponseData responseData = new EditBookResponseData(false, "Error updating book: " + e.getMessage());
+            editBookOutputBoundary.presentEditBookResult(responseData);
+        }
     }
+    
+    
 }
