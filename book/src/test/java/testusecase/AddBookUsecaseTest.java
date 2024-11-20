@@ -18,122 +18,120 @@ import book.usecase.AddBookService;
 
 public class AddBookUsecaseTest {
 
-    // Hàm trợ giúp để tạo ngày từ chuỗi
+    // Hàm trợ giúp: Chuyển đổi chuỗi ngày thành đối tượng Date
     private Date createDateFromString(String dateString) throws Exception {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.parse(dateString);
     }
 
-    // Kiểm tra xem dịch vụ có thể thêm một textbook vào repository và trả về thông
-    // báo thành công hay không
+    // Test: Thêm sách TextBook hợp lệ
     @Test
     public void testAddTextBookSuccess() throws Exception {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
         AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
 
-        // Thêm thông tin cho TextBook, với condition "New"
+        // Dữ liệu cho TextBook 
         AddBookRequestData requestData = new AddBookRequestData(
                 "T001",
-                createDateFromString("2024-11-20").toString(), // Chuyển đổi Date thành String
-                100.0,
-                10,
+                createDateFromString("2024-11-20").toString(), 
+                100.0, 
+                10, 
                 "Publisher A",
-                "TextBook",
-                "New",
-                0.0);
-
-        // Act
-        addBookService.executeAdd(requestData);
-
-        // Assert
-        verify(mockRepository).addBook(any(TextBook.class)); // Kiểm tra xem sách có được thêm vào repository hay không
-        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class)); // Kiểm tra xem kết quả được trình bày
-                                                                                  // đúng hay không
-    }
-
-    // Kiểm tra xem dịch vụ có thể thêm một reference book vào repository và trả về
-    // thông báo thành công hay không
-    @Test
-    public void testAddReferenceBookSuccess() throws Exception {
-        // Arrange
-        BookRepository mockRepository = mock(BookRepository.class);
-        AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
-        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
-
-        // Thêm thông tin cho ReferenceBook, với tax 20.0
-        AddBookRequestData requestData = new AddBookRequestData(
-                "R001",
-                createDateFromString("2024-11-20").toString(), // Chuyển đổi Date thành String
-                150.0,
-                5,
-                "Publisher B",
-                "ReferenceBook",
-                null,
-                20.0);
-
-        // Act
-        addBookService.executeAdd(requestData);
-
-        // Assert
-        verify(mockRepository).addBook(any(ReferenceBook.class)); // Kiểm tra xem sách có được thêm vào repository hay
-                                                                  // không
-        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class)); // Kiểm tra xem kết quả được trình bày
-                                                                                  // đúng hay không
-    }
-
-    // Kiểm tra xem có xảy ra lỗi khi không thể thêm sách vào repository.
-    @Test
-    public void testAddBookWithInvalidData() throws Exception {
-        // Arrange
-        BookRepository mockRepository = mock(BookRepository.class);
-        AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
-        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
-
-        // Dữ liệu thiếu thông tin quan trọng (ví dụ: thiếu bookId)
-        AddBookRequestData requestData = new AddBookRequestData(
-                null,
-                createDateFromString("2024-11-20").toString(), // Chuyển đổi Date thành String
-                100.0,
-                10,
-                "Publisher A",
-                "TextBook",
-                "New",
-                0.0);
-
-        // Act
-        addBookService.executeAdd(requestData);
-
-        // Assert
-        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class)); // Kiểm tra xem kết quả được trình bày
-        // Có thể kiểm tra thông báo lỗi trong AddBookResponseData nếu cần thiết
-    }
-
-    // kiểm tra dữ liệu trống hoặc không hợp lệ khi thêm referencebook
-    @Test
-    public void testAddReferenceBookWithInvalidData() throws Exception {
-        // Arrange
-        BookRepository mockRepository = mock(BookRepository.class);
-        AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
-        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
-
-        // Dữ liệu không hợp lệ (ví dụ: thiếu tax cho reference book)
-        AddBookRequestData requestData = new AddBookRequestData(
-                "R001",
-                createDateFromString("2024-11-20").toString(), // Chuyển đổi Date thành String
-                150.0,
-                5,
-                "Publisher B",
-                "ReferenceBook",
-                null,
-                -5.0 // tax không hợp lệ
+                "TextBook", 
+                "New", // Tình trạng
+                0.0 // Tax (không dùng cho TextBook)
         );
 
-        // Act
+        // Act: Gọi phương thức thêm sách
         addBookService.executeAdd(requestData);
 
-        // Assert
-        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class)); // Kiểm tra kết quả
+        // Assert: Kiểm tra sách được thêm vào repository
+        verify(mockRepository).addBook(any(TextBook.class));
+        // Kiểm tra kết quả được gửi tới output boundary
+        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class));
+    }
+
+    // Test: Thêm sách ReferenceBook hợp lệ
+    @Test
+    public void testAddReferenceBookSuccess() throws Exception {
+        // Arrange: Tạo mock cho repository và output boundary
+        BookRepository mockRepository = mock(BookRepository.class);
+        AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
+        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
+
+        // Dữ liệu cho ReferenceBook 
+        AddBookRequestData requestData = new AddBookRequestData(
+                "R001",
+                createDateFromString("2024-11-20").toString(), 
+                150.0, 
+                5, 
+                "Publisher B", 
+                "ReferenceBook",
+                null, // Tình trạng (không dùng cho ReferenceBook)
+                20.0 // Tax
+        );
+
+        // Act: Gọi phương thức thêm sách
+        addBookService.executeAdd(requestData);
+
+        // Assert: Kiểm tra sách được thêm vào repository
+        verify(mockRepository).addBook(any(ReferenceBook.class));
+        // Kiểm tra kết quả được gửi tới output boundary
+        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class));
+    }
+
+    // Test: Xử lý dữ liệu không hợp lệ (thiếu bookId)
+    @Test
+    public void testAddBookWithInvalidData() throws Exception {
+        // Arrange: Tạo mock cho repository và output boundary
+        BookRepository mockRepository = mock(BookRepository.class);
+        AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
+        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
+
+        // Dữ liệu không hợp lệ: Thiếu bookId
+        AddBookRequestData requestData = new AddBookRequestData(
+                null, // Không có bookId
+                createDateFromString("2024-11-20").toString(),
+                100.0,
+                10,
+                "Publisher A",
+                "TextBook",
+                "New",
+                0.0);
+
+        // Act: Gọi phương thức thêm sách
+        addBookService.executeAdd(requestData);
+
+        // Assert: Kiểm tra kết quả được gửi tới output boundary
+        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class));
+    }
+
+    // Test: Xử lý dữ liệu không hợp lệ (tax không hợp lệ cho ReferenceBook)
+    @Test
+    public void testAddReferenceBookWithInvalidData() throws Exception {
+        // Arrange: Tạo mock cho repository và output boundary
+        BookRepository mockRepository = mock(BookRepository.class);
+        AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
+        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
+
+        // Dữ liệu không hợp lệ: Tax âm
+        AddBookRequestData requestData = new AddBookRequestData(
+                "R001",
+                createDateFromString("2024-11-20").toString(),
+                150.0,
+                5,
+                "Publisher B",
+                "ReferenceBook",
+                null,
+                -5.0 // Tax không hợp lệ
+        );
+
+        // Act: Gọi phương thức thêm sách
+        addBookService.executeAdd(requestData);
+
+        // Assert: Kiểm tra kết quả được gửi tới output boundary
+        verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class));
     }
 }

@@ -10,4 +10,8 @@ public class TotalBookPriceResponseData {
     public double getTotalPrice() {
         return totalPrice;
     }
+    @Override
+    public String toString() {
+        return "TotalBookPriceResponseData{totalPrice=" + totalPrice + "}";
+    }
 }

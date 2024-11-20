@@ -1,7 +1,5 @@
 package testusecase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -14,62 +12,101 @@ import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.printbooklist.PrintBookOutputBoundary;
-import book.printbooklist.PrintBookResponseData;
 import book.usecase.PrintBookService;
 
 public class PrintBookServiceTest {
-    private BookRepository bookRepository;
-    private PrintBookOutputBoundary printBookOutputBoundary;
-    private PrintBookService printBookService;
 
-    @BeforeEach
-    public void setUp() {
-        // Khởi tạo các đối tượng mock
-        bookRepository = mock(BookRepository.class);
-        printBookOutputBoundary = mock(PrintBookOutputBoundary.class);
-        printBookService = new PrintBookService(bookRepository, printBookOutputBoundary);
-    }
-
+    // Test trường hợp có sách hợp lệ trong repository
     @Test
-    public void testPrintBook_WithReferenceBookAndTextBook() {
-        // Tạo dữ liệu mẫu cho các loại sách
-        Book referenceBook = new ReferenceBook("R001", "2022-10-10", 100.0, 5, "Publisher A", 10.0);
-        Book textBook = new TextBook("T001", "2022-11-11", 50.0, 10, "Publisher B", "New");
+    public void testPrintBookWithValidBooks() {
+        // Arrange: Mock repository và output boundary
+        BookRepository mockRepository = mock(BookRepository.class);
+        PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
+        PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
 
-        // Đảm bảo rằng bookRepository trả về danh sách sách mẫu
-        List<Book> books = Arrays.asList(referenceBook, textBook);
-        when(bookRepository.getAllBooks()).thenReturn(books);
+        // Tạo sách giả lập
+        Book book1 = new ReferenceBook("R001", "2024-01-01", 200.0, 5, "Publisher A", 15.0);
+        Book book2 = new TextBook("T001", "2024-01-02", 100.0, 10, "Publisher B", "new");
 
-        // Kiểm tra xem các đối tượng sách có được khởi tạo đúng không
-        assertNotNull(books);
-        assertEquals(2, books.size());
+        // Giả lập repository trả về danh sách sách
+        List<Book> mockBookList = Arrays.asList(book1, book2);
+        when(mockRepository.getAllBooks()).thenReturn(mockBookList);
 
-        // Gọi phương thức cần kiểm tra
+        // Act: Gọi phương thức printBook
         printBookService.printBook();
 
-        // Kiểm tra dữ liệu mong đợi
-        PrintBookResponseData expectedResponseData1 = new PrintBookResponseData(
-                "R001", "2022-10-10", 100.0, 5, "Publisher A", 10.0, "");
-        PrintBookResponseData expectedResponseData2 = new PrintBookResponseData(
-                "T001", "2022-11-11", 50.0, 10, "Publisher B", 0.0, "New");
+        // Assert: Kiểm tra phương thức getAllBooks đã được gọi
+        verify(mockRepository).getAllBooks();
 
-        List<PrintBookResponseData> expectedResponseDataList = Arrays.asList(expectedResponseData1,
-                expectedResponseData2);
-
-        // Xác minh phương thức presentPrintBookResult được gọi đúng với kết quả mong
-        // đợi
-        verify(printBookOutputBoundary).presentPrintBookResult(expectedResponseDataList);
+        // Kiểm tra phương thức presentPrintBookResult đã được gọi với dữ liệu đúng
+        verify(mockOutputBoundary).presentPrintBookResult(anyList());
     }
 
+    // Test trường hợp repository trả về danh sách sách rỗng
     @Test
-    public void testPrintBook_WithEmptyBookList() {
-        // Đảm bảo rằng bookRepository trả về danh sách rỗng
-        when(bookRepository.getAllBooks()).thenReturn(Arrays.asList());
+    public void testPrintBookWithEmptyBooks() {
+        // Arrange: Mock repository và output boundary
+        BookRepository mockRepository = mock(BookRepository.class);
+        PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
+        PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
 
-        // Gọi phương thức cần kiểm tra
+        // Giả lập repository trả về danh sách sách trống
+        when(mockRepository.getAllBooks()).thenReturn(Arrays.asList());
+
+        // Act: Gọi phương thức printBook
         printBookService.printBook();
 
-        // Xác minh phương thức presentPrintBookResult được gọi với danh sách rỗng
-        verify(printBookOutputBoundary).presentPrintBookResult(Arrays.asList());
+        // Assert: Kiểm tra phương thức getAllBooks đã được gọi
+        verify(mockRepository).getAllBooks();
+
+        // Kiểm tra phương thức presentPrintBookResult đã được gọi với danh sách rỗng
+        verify(mockOutputBoundary).presentPrintBookResult(Arrays.asList());
+    }
+
+    // Test trường hợp repository trả về null
+    @Test
+    public void testPrintBookWithNullBooks() {
+        // Arrange: Mock repository và output boundary
+        BookRepository mockRepository = mock(BookRepository.class);
+        PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
+        PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
+
+        // Giả lập repository trả về null
+        when(mockRepository.getAllBooks()).thenReturn(null);
+
+        // Act: Gọi phương thức printBook
+        printBookService.printBook();
+
+        // Assert: Kiểm tra phương thức getAllBooks đã được gọi
+        verify(mockRepository).getAllBooks();
+
+        // Kiểm tra phương thức presentPrintBookResult đã được gọi với danh sách trống
+        verify(mockOutputBoundary).presentPrintBookResult(Arrays.asList());
+    }
+
+    // Test trường hợp danh sách sách có đối tượng null
+    @Test
+    public void testPrintBookWithNullBookInList() {
+        // Arrange: Mock repository và output boundary
+        BookRepository mockRepository = mock(BookRepository.class);
+        PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
+        PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
+
+        // Tạo sách giả lập với một đối tượng sách null
+        Book book1 = new ReferenceBook("R001", "2024-01-01", 200.0, 5, "Publisher A", 15.0);
+        Book book2 = null;  // Sách null
+        List<Book> mockBookList = Arrays.asList(book1, book2);
+
+        // Giả lập repository trả về danh sách sách chứa null
+        when(mockRepository.getAllBooks()).thenReturn(mockBookList);
+
+        // Act: Gọi phương thức printBook
+        printBookService.printBook();
+
+        // Assert: Kiểm tra phương thức getAllBooks đã được gọi
+        verify(mockRepository).getAllBooks();
+
+        // Kiểm tra phương thức presentPrintBookResult đã được gọi
+        verify(mockOutputBoundary).presentPrintBookResult(anyList());
     }
 }

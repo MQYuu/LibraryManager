@@ -14,7 +14,7 @@ public class DeleteBookServiceTest {
     // Test này kiểm tra xem sách có được xóa thành công hay không
     @Test
     public void testDeleteBookSuccess() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         DeleteBookOutputBoundary mockOutputBoundary = mock(DeleteBookOutputBoundary.class);
         DeleteBookService deleteBookService = new DeleteBookService(mockRepository, mockOutputBoundary);
@@ -25,20 +25,20 @@ public class DeleteBookServiceTest {
         // Dữ liệu yêu cầu xóa sách
         DeleteBookRequestData requestData = new DeleteBookRequestData("T001");
 
-        // Act
+        // Act: Gọi phương thức xóa sách
         deleteBookService.deleteBook(requestData);
 
-        // Assert
-        verify(mockRepository).deleteBook("T001"); // Kiểm tra xem phương thức xóa sách có được gọi không
-        verify(mockOutputBoundary).presentDeleteBookResult(any(DeleteBookResponseData.class)); // Kiểm tra xem kết quả
-                                                                                               // đã được trình bày hay
-                                                                                               // chưa
+        // Assert: Kiểm tra xem phương thức xóa sách có được gọi không
+        verify(mockRepository).deleteBook("T001"); 
+
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentDeleteBookResult(any(DeleteBookResponseData.class)); 
     }
 
     // Test này kiểm tra khi xóa sách không thành công.
     @Test
     public void testDeleteBookFailure() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         DeleteBookOutputBoundary mockOutputBoundary = mock(DeleteBookOutputBoundary.class);
         DeleteBookService deleteBookService = new DeleteBookService(mockRepository, mockOutputBoundary);
@@ -49,20 +49,20 @@ public class DeleteBookServiceTest {
         // Dữ liệu yêu cầu xóa sách
         DeleteBookRequestData requestData = new DeleteBookRequestData("T001");
 
-        // Act
+        // Act: Gọi phương thức xóa sách
         deleteBookService.deleteBook(requestData);
 
-        // Assert
-        verify(mockRepository).deleteBook("T001"); // Kiểm tra xem phương thức xóa sách có được gọi không
-        verify(mockOutputBoundary).presentDeleteBookResult(any(DeleteBookResponseData.class)); // Kiểm tra xem kết quả
-                                                                                               // đã được trình bày hay
-                                                                                               // chưa
+        // Assert: Kiểm tra xem phương thức xóa sách có được gọi không
+        verify(mockRepository).deleteBook("T001"); 
+
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentDeleteBookResult(any(DeleteBookResponseData.class)); 
     }
 
     // Test này kiểm tra khi cố gắng xóa một cuốn sách không tồn tại trong kho.
     @Test
     public void testDeleteBookNotFound() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         DeleteBookOutputBoundary mockOutputBoundary = mock(DeleteBookOutputBoundary.class);
         DeleteBookService deleteBookService = new DeleteBookService(mockRepository, mockOutputBoundary);
@@ -73,14 +73,13 @@ public class DeleteBookServiceTest {
         // Dữ liệu yêu cầu xóa sách
         DeleteBookRequestData requestData = new DeleteBookRequestData("T001");
 
-        // Act
+        // Act: Gọi phương thức xóa sách
         deleteBookService.deleteBook(requestData);
 
-        // Assert
-        verify(mockRepository).deleteBook("T001"); // Kiểm tra xem phương thức xóa sách có được gọi không
-        verify(mockOutputBoundary).presentDeleteBookResult(any(DeleteBookResponseData.class)); // Kiểm tra xem kết quả
-                                                                                               // đã được trình bày hay
-                                                                                               // chưa
-    }
+        // Assert: Kiểm tra xem phương thức xóa sách có được gọi không
+        verify(mockRepository).deleteBook("T001"); 
 
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentDeleteBookResult(any(DeleteBookResponseData.class)); 
+    }
 }

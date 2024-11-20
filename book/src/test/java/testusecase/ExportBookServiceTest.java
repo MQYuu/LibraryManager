@@ -20,7 +20,7 @@ public class ExportBookServiceTest {
     //Test kiểm tra xem có xuất ra thông tin sách thành công hay không
     @Test
     public void testExportBooksSuccess() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         ExportBookOutputBoundary mockOutputBoundary = mock(ExportBookOutputBoundary.class);
         ExportBookService exportBookService = new ExportBookService(mockRepository, mockOutputBoundary);
@@ -37,18 +37,20 @@ public class ExportBookServiceTest {
         // Dữ liệu yêu cầu xuất sách
         ExportBookRequestData requestData = new ExportBookRequestData("Publisher1");
 
-        // Act
+        // Act: Gọi phương thức xuất sách
         exportBookService.exportBook(requestData);
 
-        // Assert
-        verify(mockRepository).getAllBooks();  // Kiểm tra phương thức getAllBooks đã được gọi
-        verify(mockOutputBoundary).presentExportBookResult(any(ExportBookResponseData.class));  // Kiểm tra kết quả được trình bày
+        // Assert: Kiểm tra xem phương thức getAllBooks đã được gọi
+        verify(mockRepository).getAllBooks(); 
+
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentExportBookResult(any(ExportBookResponseData.class)); 
     }
     
     //Test này kiểm tra xem có báo lỗi khi xóa sách không tồn tại hay không
     @Test
     public void testExportBooksWithNoMatchingPublisher() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         ExportBookOutputBoundary mockOutputBoundary = mock(ExportBookOutputBoundary.class);
         ExportBookService exportBookService = new ExportBookService(mockRepository, mockOutputBoundary);
@@ -65,11 +67,13 @@ public class ExportBookServiceTest {
         // Dữ liệu yêu cầu xuất sách cho publisher không có trong danh sách
         ExportBookRequestData requestData = new ExportBookRequestData("Publisher2");
 
-        // Act
+        // Act: Gọi phương thức xuất sách
         exportBookService.exportBook(requestData);
 
-        // Assert
-        verify(mockRepository).getAllBooks();  // Kiểm tra phương thức getAllBooks đã được gọi
-        verify(mockOutputBoundary).presentExportBookResult(any(ExportBookResponseData.class));  // Kiểm tra kết quả được trình bày
+        // Assert: Kiểm tra xem phương thức getAllBooks đã được gọi
+        verify(mockRepository).getAllBooks(); 
+
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentExportBookResult(any(ExportBookResponseData.class)); 
     }
 }

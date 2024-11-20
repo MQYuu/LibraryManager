@@ -6,13 +6,15 @@ import book.totalbookprice.TotalBookPriceInputBoundary;
 import book.totalbookprice.TotalBookPriceOutputBoundary;
 import book.totalbookprice.TotalBookPriceResponseData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TotalBookPriceService implements TotalBookPriceInputBoundary {
     private BookRepository bookRepository;
     private TotalBookPriceOutputBoundary totalBookPriceOutputBoundary;
 
-    public TotalBookPriceService(BookRepository bookRepository, TotalBookPriceOutputBoundary totalBookPriceOutputBoundary) {
+    public TotalBookPriceService(BookRepository bookRepository,
+            TotalBookPriceOutputBoundary totalBookPriceOutputBoundary) {
         this.bookRepository = bookRepository;
         this.totalBookPriceOutputBoundary = totalBookPriceOutputBoundary;
     }
@@ -20,6 +22,9 @@ public class TotalBookPriceService implements TotalBookPriceInputBoundary {
     @Override
     public void calculateTotalBookPrice() {
         List<Book> books = bookRepository.getAllBooks();
+        if (books == null) {
+            books = new ArrayList<>(); // Tránh NullPointerException, tạo danh sách trống nếu trả về null
+        }
         double totalPrice = 0;
 
         for (Book book : books) {
@@ -29,5 +34,5 @@ public class TotalBookPriceService implements TotalBookPriceInputBoundary {
         TotalBookPriceResponseData responseData = new TotalBookPriceResponseData(totalPrice);
         totalBookPriceOutputBoundary.presentTotalBookPrice(responseData);
     }
-}
 
+}

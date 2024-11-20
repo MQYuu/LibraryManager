@@ -15,29 +15,29 @@ import java.util.Arrays;
 
 public class AverageUnitPriceServiceTest {
 
-    // Test này kiểm tra việc tính toán giá trị trung bình của các cuốn sách tham
-    // chiếu (ReferenceBook) khi có ít nhất một cuốn sách trong kho.
+    // Test này kiểm tra việc tính toán giá trị trung bình của 
+    // ReferenceBook khi có ít nhất một cuốn sách trong kho.
     @Test
     public void testCalculateAverageUnitPriceSuccess() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
-        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository,
-                mockOutputBoundary);
+        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 
         // Tạo một danh sách sách với ít nhất một ReferenceBook
         ReferenceBook referenceBook1 = mock(ReferenceBook.class);
-        when(referenceBook1.getUnitPrice()).thenReturn(100.0);
+        when(referenceBook1.getUnitPrice()).thenReturn(100.0); // Đơn giá của sách tham chiếu đầu tiên
 
         ReferenceBook referenceBook2 = mock(ReferenceBook.class);
-        when(referenceBook2.getUnitPrice()).thenReturn(150.0);
+        when(referenceBook2.getUnitPrice()).thenReturn(150.0); // Đơn giá của sách tham chiếu thứ hai
 
+        // Khi gọi getAllBooks, trả về danh sách các sách tham chiếu
         when(mockRepository.getAllBooks()).thenReturn(Arrays.asList(referenceBook1, referenceBook2));
 
-        // Act
+        // Act: Gọi phương thức tính toán giá trị trung bình
         averageUnitPriceService.calculateAverageUnitPrice();
 
-        // Assert
+        // Assert: Kiểm tra xem kết quả đã được gửi đến output boundary chưa
         verify(mockOutputBoundary).presentAverageUnitPriceResult(any(AverageUnitPriceResponseData.class));
     }
 
@@ -45,20 +45,19 @@ public class AverageUnitPriceServiceTest {
     // trong trường hợp này, giá trị trung bình phải là 0
     @Test
     public void testCalculateAverageUnitPriceNoReferenceBooks() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
-        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository,
-                mockOutputBoundary);
+        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 
         // Tạo một danh sách sách không có ReferenceBook nào
-        Book nonReferenceBook = mock(Book.class);
+        Book nonReferenceBook = mock(Book.class); // Cuốn sách thông thường, không phải là ReferenceBook
         when(mockRepository.getAllBooks()).thenReturn(Arrays.asList(nonReferenceBook));
 
-        // Act
+        // Act: Gọi phương thức tính toán giá trị trung bình
         averageUnitPriceService.calculateAverageUnitPrice();
 
-        // Assert
+        // Assert: Kiểm tra xem kết quả đã được gửi đến output boundary chưa
         verify(mockOutputBoundary).presentAverageUnitPriceResult(any(AverageUnitPriceResponseData.class));
     }
 
@@ -66,42 +65,40 @@ public class AverageUnitPriceServiceTest {
     // bình sẽ là 0.
     @Test
     public void testCalculateAverageUnitPriceNoBooksInRepository() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
-        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository,
-                mockOutputBoundary);
+        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 
         // Tạo một danh sách sách rỗng
         when(mockRepository.getAllBooks()).thenReturn(Arrays.asList());
 
-        // Act
+        // Act: Gọi phương thức tính toán giá trị trung bình
         averageUnitPriceService.calculateAverageUnitPrice();
 
-        // Assert
+        // Assert: Kiểm tra xem kết quả đã được gửi đến output boundary chưa
         verify(mockOutputBoundary).presentAverageUnitPriceResult(any(AverageUnitPriceResponseData.class));
     }
 
-    // Test này kiểm tra trường hợp có một cuốn sách tham chiếu trong kho và kiểm
+    // Test này kiểm tra trường hợp có một ReferenceBook trong kho và kiểm
     // tra giá trị trung bình.
     @Test
     public void testCalculateAverageUnitPriceSingleReferenceBook() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
-        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository,
-                mockOutputBoundary);
+        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 
-        // Tạo một cuốn sách tham chiếu duy nhất
+        // Tạo một ReferenceBook duy nhất
         ReferenceBook referenceBook = mock(ReferenceBook.class);
-        when(referenceBook.getUnitPrice()).thenReturn(200.0);
+        when(referenceBook.getUnitPrice()).thenReturn(200.0); // Đơn giá của ReferenceBook
 
         when(mockRepository.getAllBooks()).thenReturn(Arrays.asList(referenceBook));
 
-        // Act
+        // Act: Gọi phương thức tính toán giá trị trung bình
         averageUnitPriceService.calculateAverageUnitPrice();
 
-        // Assert
+        // Assert: Kiểm tra xem kết quả đã được gửi đến output boundary chưa
         verify(mockOutputBoundary).presentAverageUnitPriceResult(any(AverageUnitPriceResponseData.class));
     }
 

@@ -15,7 +15,7 @@ public class EditBookServiceTest {
     // Test này kiểm tra khi sách được cập nhật thành công trong kho.
     @Test
     public void testEditBookSuccess() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         EditBookOutputBoundary mockOutputBoundary = mock(EditBookOutputBoundary.class);
         EditBookService editBookService = new EditBookService(mockRepository, mockOutputBoundary);
@@ -27,20 +27,21 @@ public class EditBookServiceTest {
         // Giả lập hành động chỉnh sửa sách thành công
         doNothing().when(mockRepository).editBook(requestData);
 
-        // Act
+        // Act: Gọi phương thức chỉnh sửa sách
         editBookService.editBook(requestData);
 
-        // Assert
-        verify(mockRepository).editBook(requestData); // Kiểm tra phương thức chỉnh sửa có được gọi không
-        verify(mockOutputBoundary).presentEditBookResult(any(EditBookResponseData.class)); // Kiểm tra kết quả đã được
-                                                                                           // trình bày hay chưa
+        // Assert: Kiểm tra xem phương thức chỉnh sửa có được gọi không
+        verify(mockRepository).editBook(requestData); 
+
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentEditBookResult(any(EditBookResponseData.class)); 
     }
 
     // Test này kiểm tra khi không thể chỉnh sửa sách vì lý do nào đó, chẳng hạn như
     // không tìm thấy sách hoặc có lỗi trong quá trình chỉnh sửa.
     @Test
     public void testEditBookFailure() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         EditBookOutputBoundary mockOutputBoundary = mock(EditBookOutputBoundary.class);
         EditBookService editBookService = new EditBookService(mockRepository, mockOutputBoundary);
@@ -52,20 +53,21 @@ public class EditBookServiceTest {
         // Giả lập hành động chỉnh sửa sách thất bại, ném ra ngoại lệ
         doThrow(new RuntimeException("Error updating book")).when(mockRepository).editBook(requestData);
 
-        // Act
+        // Act: Gọi phương thức chỉnh sửa sách
         editBookService.editBook(requestData);
 
-        // Assert
-        verify(mockRepository).editBook(requestData); // Kiểm tra phương thức chỉnh sửa có được gọi không
-        verify(mockOutputBoundary).presentEditBookResult(any(EditBookResponseData.class)); // Kiểm tra kết quả đã được
-                                                                                           // trình bày
+        // Assert: Kiểm tra xem phương thức chỉnh sửa có được gọi không
+        verify(mockRepository).editBook(requestData); 
+
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentEditBookResult(any(EditBookResponseData.class)); 
     }
 
     // Test này kiểm tra khi thông tin truyền vào không hợp lệ (ví dụ: thiếu trường
     // thông tin quan trọng).
     @Test
     public void testEditBookWithInvalidData() {
-        // Arrange
+        // Arrange: Tạo mock cho repository và output boundary
         BookRepository mockRepository = mock(BookRepository.class);
         EditBookOutputBoundary mockOutputBoundary = mock(EditBookOutputBoundary.class);
         EditBookService editBookService = new EditBookService(mockRepository, mockOutputBoundary);
@@ -74,15 +76,14 @@ public class EditBookServiceTest {
         EditBookRequestData requestData = new EditBookRequestData("", "2024-11-20", 100.0, 10, "Publisher A", "New",
                 10.0);
 
-        // Act
+        // Act: Gọi phương thức chỉnh sửa sách
         editBookService.editBook(requestData);
 
-        // Assert
-        verify(mockRepository, never()).editBook(any(EditBookRequestData.class)); // Kiểm tra phương thức chỉnh sửa
-                                                                                  // không được gọi nếu dữ liệu không
-                                                                                  // hợp lệ
-        verify(mockOutputBoundary).presentEditBookResult(any(EditBookResponseData.class)); // Kiểm tra kết quả đã được
-                                                                                           // trình bày
+        // Assert: Kiểm tra xem phương thức chỉnh sửa không được gọi nếu dữ liệu không hợp lệ
+        verify(mockRepository, never()).editBook(any(EditBookRequestData.class)); 
+
+        // Kiểm tra xem kết quả đã được trình bày qua output boundary chưa
+        verify(mockOutputBoundary).presentEditBookResult(any(EditBookResponseData.class)); 
     }
 
 }
