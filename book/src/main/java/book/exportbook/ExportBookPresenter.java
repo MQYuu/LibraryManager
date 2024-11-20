@@ -11,6 +11,6 @@ public class ExportBookPresenter implements ExportBookOutputBoundary {
 
     @Override
     public void presentExportBookResult(ExportBookResponseData responseData) {
-        resultForm.display(responseData);
+        resultForm.display(responseData);  // Hiển thị kết quả trong form
     }
 }

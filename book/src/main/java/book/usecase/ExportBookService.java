@@ -26,14 +26,30 @@ public class ExportBookService implements ExportBookInputBoundary {
         // Lấy tất cả sách từ repository
         List<Book> allBooks = bookRepository.getAllBooks();
         
-        // Lọc ra những sách là TextBook và có publisher khớp với yêu cầu
+        // Kiểm tra xem danh sách sách có dữ liệu không
+        if (allBooks.isEmpty()) {
+            System.out.println("No books found in the repository.");
+        } else {
+            System.out.println("Total books in repository: " + allBooks.size());
+        }
+    
+        // Lọc ra tất cả sách có publisher khớp với yêu cầu (bao gồm cả TextBook và ReferenceBook)
         List<Book> filteredBooks = allBooks.stream()
-            .filter(book -> book instanceof TextBook && book.getPublisher().equals(requestData.getPublisher()))
+            .filter(book -> book.getPublisher().equalsIgnoreCase(requestData.getPublisher()))
             .collect(Collectors.toList());
-
+        
+        // Kiểm tra kết quả lọc
+        if (filteredBooks.isEmpty()) {
+            System.out.println("No books found for publisher: " + requestData.getPublisher());
+        } else {
+            System.out.println("Found " + filteredBooks.size() + " books for publisher: " + requestData.getPublisher());
+        }
+    
         // Tạo đối tượng ExportBookResponseData từ danh sách sách lọc
         ExportBookResponseData responseData = new ExportBookResponseData(filteredBooks);
         exportBookPresenter.presentExportBookResult(responseData);
     }
+    
+    
 }
 
