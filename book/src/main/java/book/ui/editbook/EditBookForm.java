@@ -19,10 +19,10 @@ public class EditBookForm extends JFrame {
     private JTextField taxField;
     private JButton saveButton;
     private JComboBox<String> typeComboBox;  // ComboBox for book type
-    private EditBookFormController controller;
+    private EditBookFormController editBookFormController;
 
-    public EditBookForm(EditBookFormController controller) {
-        this.controller = controller;
+    public EditBookForm(EditBookFormController editBookFormController) {
+        this.editBookFormController = editBookFormController;
         initialize();
     }
 
@@ -126,13 +126,13 @@ public class EditBookForm extends JFrame {
             return;
         }
 
-        // Create EditBookRequestData and send it to the controller
+        // Create EditBookRequestData and send it to the editBookFormController
         EditBookRequestData requestData = new EditBookRequestData(
                 bookId, entryDate, unitPrice, quantity, publisher, condition, tax
         );
 
-        // Call the controller to process the book update
-        controller.updateBook(bookId, entryDate, unitPrice, quantity, publisher, condition, tax);
+        // Call the editBookFormController to process the book update
+        editBookFormController.updateBook(bookId, entryDate, unitPrice, quantity, publisher, condition, tax);
 
         // Close the form after saving
         this.dispose();

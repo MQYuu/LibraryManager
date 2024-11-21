@@ -5,12 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SearchBookForm extends JFrame {
-    private JTextField keywordField;
+    private JTextField bookIdField;
     private JButton searchButton;
-    private SearchBookFormController controller;
+    private SearchBookFormController searchBookFormController;
 
-    public SearchBookForm(SearchBookFormController controller) {
-        this.controller = controller;
+    public SearchBookForm(SearchBookFormController searchBookFormController) {
+        this.searchBookFormController = searchBookFormController;
         initialize();
     }
 
@@ -23,8 +23,8 @@ public class SearchBookForm extends JFrame {
 
 
         add(new JLabel("Nhập id cần tìm:"));
-        keywordField = new JTextField(20);
-        add(keywordField);
+        bookIdField = new JTextField(20);
+        add(bookIdField);
 
         searchButton = new JButton("Search");
         add(searchButton);
@@ -32,8 +32,8 @@ public class SearchBookForm extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String keyword = keywordField.getText();
-                controller.searchBook(keyword);
+                String bookId = bookIdField.getText();
+                searchBookFormController.searchBook(bookId);
                 dispose();
             }
         });

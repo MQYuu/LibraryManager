@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 public class DeleteBookForm extends JFrame {
     private JTextField bookIdField;
     private JButton deleteButton;
-    private DeleteBookFormController controller;
+    private DeleteBookFormController deleteBookFormController;
 
-    public DeleteBookForm(DeleteBookFormController controller) {
-        this.controller = controller;
+    public DeleteBookForm(DeleteBookFormController deleteBookFormController) {
+        this.deleteBookFormController = deleteBookFormController;
         initialize();
     }
 
@@ -35,7 +35,7 @@ public class DeleteBookForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String bookId = bookIdField.getText();
-                controller.deleteBook(bookId);
+                deleteBookFormController.deleteBook(bookId);
                 dispose();
             }
         });

@@ -21,10 +21,10 @@ public class AddBookForm extends JFrame {
     private JButton submitButton;
     private JComboBox<String> typeComboBox; // ComboBox to select book type
 
-    private AddBookFormController controller;
+    private AddBookFormController addBookFormController;
 
-    public AddBookForm(AddBookFormController controller) {
-        this.controller = controller;
+    public AddBookForm(AddBookFormController addBookFormController) {
+        this.addBookFormController = addBookFormController;
         initialize();
     }
 
@@ -134,8 +134,8 @@ public class AddBookForm extends JFrame {
                 bookId, entryDate, unitPrice, quantity, publisher, type, condition, tax
         );
     
-        // Gọi controller để xử lý việc thêm sách
-        controller.submitAddBookForm(requestData);
+        // Gọi addBookFormController để xử lý việc thêm sách
+        addBookFormController.submitAddBookForm(requestData);
     
         // Đóng form sau khi nhập thành công
         this.dispose();  // Đóng cửa sổ AddBookForm

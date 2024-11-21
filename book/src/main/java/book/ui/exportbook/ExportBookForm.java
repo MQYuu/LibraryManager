@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 public class ExportBookForm extends JFrame {
     private JTextField publisherField;
     private JButton submitButton;
-    private ExportBookFormController controller;
+    private ExportBookFormController exportBookFormController;
 
-    public ExportBookForm(ExportBookFormController controller) {
-        this.controller = controller;
+    public ExportBookForm(ExportBookFormController exportBookFormController) {
+        this.exportBookFormController = exportBookFormController;
 
         setTitle("Enter Publisher");
         setSize(300, 150);
@@ -36,7 +36,7 @@ public class ExportBookForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String publisher = publisherField.getText();
                 if (!publisher.isEmpty()) {
-                    controller.handlePublisherInput(publisher);
+                    exportBookFormController.handlePublisherInput(publisher);
                     dispose();  // Đóng form sau khi nhấn "Submit"
                 } else {
                     JOptionPane.showMessageDialog(ExportBookForm.this, "Please enter a publisher name.");
