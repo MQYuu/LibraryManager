@@ -9,5 +9,5 @@ public interface BookDBBoundary {
     List<Book> getAllBooks(); // Lấy tất cả sách
     void updateBook(EditBookRequestData editBookRequestData); // Cập nhật sách
     void deleteBook(String bookId); // Xóa sách theo ID
-    public List<Book> searchBooksById(String keyword);
+    public List<Book> searchBooksById(String bookId);
 }

@@ -27,16 +27,6 @@ public class BookMySQL implements BookDBBoundary {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
     }
 
-    // Hàm kiểm tra kết nối với cơ sở dữ liệu
-    public boolean checkDatabaseConnection() {
-        try (Connection conn = getConnection()) {
-            return conn != null;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
     @Override
     public void saveBook(Book book) {
         String sql = "INSERT INTO books (book_id, entry_date, unit_price, quantity, publisher, type, conditionBook, tax) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -170,23 +160,23 @@ public class BookMySQL implements BookDBBoundary {
     public List<Book> searchBooksById(String id) {
         List<Book> books = new ArrayList<>();
         // Sửa lại câu lệnh SQL để tìm kiếm chính xác theo book_id
-        String sql = "SELECT * FROM books WHERE book_id = ?";  // Đảm bảo chỉ so sánh với book_id
-    
+        String sql = "SELECT * FROM books WHERE book_id = ?"; // Đảm bảo chỉ so sánh với book_id
+
         try (Connection conn = getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    
+
             // Gán giá trị book_id vào PreparedStatement
-            pstmt.setString(1, id);  // Gán giá trị id cho câu lệnh SQL
-    
+            pstmt.setString(1, id); // Gán giá trị id cho câu lệnh SQL
+
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    books.add(mapRowToBook(rs));  // Chuyển kết quả thành đối tượng Book
+                    books.add(mapRowToBook(rs)); // Chuyển kết quả thành đối tượng Book
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error during book search: " + e.getMessage());
             e.printStackTrace();
         }
-        return books;  // Trả về danh sách sách tìm được
+        return books; // Trả về danh sách sách tìm được
     }
 }
