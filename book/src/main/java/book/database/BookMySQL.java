@@ -139,19 +139,19 @@ public class BookMySQL implements BookDBBoundary {
     }
 
     // Chuyển một kết quả từ ResultSet thành một đối tượng Book
-    private Book mapRowToBook(ResultSet rs) throws SQLException {
-        String bookId = rs.getString("book_id");
-        String entryDate = rs.getString("entry_date");
-        double unitPrice = rs.getDouble("unit_price");
-        int quantity = rs.getInt("quantity");
-        String publisher = rs.getString("publisher");
-        String type = rs.getString("type");
+    private Book mapRowToBook(ResultSet resultSet) throws SQLException {
+        String bookId = resultSet.getString("book_id");
+        String entryDate = resultSet.getString("entry_date");
+        double unitPrice = resultSet.getDouble("unit_price");
+        int quantity = resultSet.getInt("quantity");
+        String publisher = resultSet.getString("publisher");
+        String type = resultSet.getString("type");
 
         if ("TextBook".equals(type)) {
-            String condition = rs.getString("conditionBook");
+            String condition = resultSet.getString("conditionBook");
             return new TextBook(bookId, entryDate, unitPrice, quantity, publisher, condition);
         } else {
-            double tax = rs.getDouble("tax");
+            double tax = resultSet.getDouble("tax");
             return new ReferenceBook(bookId, entryDate, unitPrice, quantity, publisher, tax);
         }
     }

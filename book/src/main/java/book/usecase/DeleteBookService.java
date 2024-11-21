@@ -23,7 +23,7 @@ public class DeleteBookService implements DeleteBookInputBoundary {
         // Tạo dữ liệu phản hồi
         DeleteBookResponseData responseData = new DeleteBookResponseData(
                 success,
-                success ? "Xóa sách thành công." : "Không thể xóa sách."
+                success ? "Xóa sách thành công." : "Id sách không tồn tại!"
         );
         
         // Trình bày kết quả
