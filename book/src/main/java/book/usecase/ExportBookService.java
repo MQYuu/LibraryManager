@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 public class ExportBookService implements ExportBookInputBoundary {
     private BookRepository bookRepository;
-    private ExportBookOutputBoundary exportBookPresenter;
+    private ExportBookOutputBoundary exportBookOutputBoundary;
 
-    public ExportBookService(BookRepository bookRepository, ExportBookOutputBoundary exportBookPresenter) {
+    public ExportBookService(BookRepository bookRepository, ExportBookOutputBoundary exportBookOutputBoundary) {
         this.bookRepository = bookRepository;
-        this.exportBookPresenter = exportBookPresenter;
+        this.exportBookOutputBoundary = exportBookOutputBoundary;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ExportBookService implements ExportBookInputBoundary {
     
         // Tạo đối tượng ExportBookResponseData từ danh sách sách lọc
         ExportBookResponseData responseData = new ExportBookResponseData(filteredBooks);
-        exportBookPresenter.presentExportBookResult(responseData);
+        exportBookOutputBoundary.presentExportBookResult(responseData);
     }
     
     

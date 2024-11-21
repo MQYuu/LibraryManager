@@ -10,7 +10,7 @@ public class DeleteBookPresenter implements DeleteBookOutputBoundary {
     }
 
     @Override
-    public void presentDeleteBookResult(DeleteBookResponseData responseData) {
-        deleteBookResultForm.displayResult(responseData.getMessage(), responseData.isSuccess());
+    public void presentDeleteBookResult(DeleteBookResponseData deleteBookResponseData) {
+        deleteBookResultForm.displayResult(deleteBookResponseData.getMessage(), deleteBookResponseData.isSuccess());
     }
 }

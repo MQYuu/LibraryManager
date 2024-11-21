@@ -10,8 +10,8 @@ public class EditBookPresenter implements EditBookOutputBoundary {
     }
 
     @Override
-    public void presentEditBookResult(EditBookResponseData responseData) {
-        editBookResultForm.displayResult(responseData.getMessage(), responseData.isSuccess());
+    public void presentEditBookResult(EditBookResponseData editBookResponseData) {
+        editBookResultForm.displayResult(editBookResponseData.getMessage(), editBookResponseData.isSuccess());
     }
 }
 

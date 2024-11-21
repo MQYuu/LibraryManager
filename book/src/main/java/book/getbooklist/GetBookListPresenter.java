@@ -10,8 +10,8 @@ public class GetBookListPresenter implements GetBookListOutputBoundary {
     }
 
     @Override
-    public void presentBookList(GetBookListResponseData responseData) {
-        // Truyền danh sách sách từ responseData vào MainForm để hiển thị
-        mainForm.displayBookList(responseData.getBookList());
+    public void presentBookList(GetBookListResponseData getBookListResponseData) {
+        // Truyền danh sách sách từ getBookListResponseData vào MainForm để hiển thị
+        mainForm.displayBookList(getBookListResponseData.getBookList());
     }
 }

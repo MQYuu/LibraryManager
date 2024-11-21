@@ -10,7 +10,7 @@ public class AddBookPresenter implements AddBookOutputBoundary {
     }
 
     @Override
-    public void presentResult(AddBookResponseData responseData) {
-        addBookResultForm.displayResult(responseData.message);
+    public void presentResult(AddBookResponseData addBookResponseData) {
+        addBookResultForm.displayResult(addBookResponseData.message);
     }
 }

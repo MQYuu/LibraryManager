@@ -12,8 +12,8 @@ public class SearchBookPresenter implements SearchBookOutputBoundary {
     }
 
     @Override
-    public void presentSearchBookResults(SearchBookResponseData responseData) {
-        List<Book> books = responseData.getFoundBooks();
+    public void presentSearchBookResults(SearchBookResponseData searchBookResponseData) {
+        List<Book> books = searchBookResponseData.getFoundBooks();
         searchBookResultForm.displayResults(books); // Hiển thị kết quả trên form kết quả
     }
 }

@@ -4,10 +4,10 @@ import book.exportbook.ExportBookInputBoundary;
 import book.exportbook.ExportBookRequestData;
 
 public class ExportBookFormController {
-    private ExportBookInputBoundary exportBookService;
+    private ExportBookInputBoundary exportBookInputBoundary;
 
-    public ExportBookFormController(ExportBookInputBoundary exportBookService) {
-        this.exportBookService = exportBookService;
+    public ExportBookFormController(ExportBookInputBoundary exportBookInputBoundary) {
+        this.exportBookInputBoundary = exportBookInputBoundary;
     }
 
     public void showExportBookForm() {
@@ -19,7 +19,7 @@ public class ExportBookFormController {
     public void handlePublisherInput(String publisher) {
         // Nhận tên nhà xuất bản từ form và gửi dữ liệu đến service để xuất thông tin sách
         ExportBookRequestData requestData = new ExportBookRequestData(publisher);
-        exportBookService.exportBook(requestData);
+        exportBookInputBoundary.exportBook(requestData);
     }
 }
 

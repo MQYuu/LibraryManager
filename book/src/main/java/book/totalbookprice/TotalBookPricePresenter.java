@@ -10,7 +10,7 @@ public class TotalBookPricePresenter implements TotalBookPriceOutputBoundary {
     }
 
     @Override
-    public void presentTotalBookPrice(TotalBookPriceResponseData responseData) {
-        totalBookPriceResultForm.displayTotalPrice(responseData.getTotalPrice());
+    public void presentTotalBookPrice(TotalBookPriceResponseData totalBookPriceResponseData) {
+        totalBookPriceResultForm.displayTotalPrice(totalBookPriceResponseData.getTotalPrice());
     }
 }

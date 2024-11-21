@@ -10,7 +10,7 @@ public class AverageUnitPricePresenter implements AverageUnitPriceOutputBoundary
     }
 
     @Override
-    public void presentAverageUnitPriceResult(AverageUnitPriceResponseData responseData) {
-        averageUnitPriceResultForm.display(responseData);
+    public void presentAverageUnitPriceResult(AverageUnitPriceResponseData averageUnitPriceResponseData) {
+        averageUnitPriceResultForm.display(averageUnitPriceResponseData);
     }
 }

@@ -3,14 +3,14 @@ package book.exportbook;
 import book.ui.exportbook.ExportBookResultForm;
 
 public class ExportBookPresenter implements ExportBookOutputBoundary {
-    private ExportBookResultForm resultForm;
+    private ExportBookResultForm exportBookResultForm;
 
-    public ExportBookPresenter(ExportBookResultForm resultForm) {
-        this.resultForm = resultForm;
+    public ExportBookPresenter(ExportBookResultForm exportBookResultForm) {
+        this.exportBookResultForm = exportBookResultForm;
     }
 
     @Override
-    public void presentExportBookResult(ExportBookResponseData responseData) {
-        resultForm.display(responseData);  // Hiển thị kết quả trong form
+    public void presentExportBookResult(ExportBookResponseData exportBookResponseData) {
+        exportBookResultForm.display(exportBookResponseData);  // Hiển thị kết quả trong form
     }
 }
