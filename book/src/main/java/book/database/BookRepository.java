@@ -26,8 +26,15 @@ public class BookRepository {
     }
 
     public boolean deleteBook(String bookId) {
+        // Kiểm tra xem sách có tồn tại không trước khi xóa
+        List<Book> books = searchBooksById(bookId); // Tìm sách theo ID
+        if (books.isEmpty()) {
+            return false; // Sách không tồn tại
+        }
+
+        // Xóa sách nếu tồn tại
         bookDBBoundary.deleteBook(bookId);
-        return true; // Đây là ví dụ giả sử luôn xóa thành công
+        return true; // Xóa thành công
     }
 
     // Phương thức tìm kiếm sách theo id
