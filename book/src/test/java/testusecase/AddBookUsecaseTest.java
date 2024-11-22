@@ -11,7 +11,7 @@ import java.util.Date;
 import book.addbook.AddBookOutputBoundary;
 import book.addbook.AddBookRequestData;
 import book.addbook.AddBookResponseData;
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
 import book.usecase.AddBookService;
@@ -27,10 +27,10 @@ public class AddBookUsecaseTest {
     // Test: Thêm sách TextBook hợp lệ
     @Test
     public void testAddTextBookSuccess() throws Exception {
-        // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Arrange: Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockDBBoundary = mock(BookDBBoundary.class);
         AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
-        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
+        AddBookService addBookService = new AddBookService(mockDBBoundary, mockOutputBoundary);
 
         // Dữ liệu cho TextBook 
         AddBookRequestData requestData = new AddBookRequestData(
@@ -47,8 +47,8 @@ public class AddBookUsecaseTest {
         // Act: Gọi phương thức thêm sách
         addBookService.executeAdd(requestData);
 
-        // Assert: Kiểm tra sách được thêm vào repository
-        verify(mockRepository).addBook(any(TextBook.class));
+        // Assert: Kiểm tra sách được thêm vào database boundary
+        verify(mockDBBoundary).saveBook(any(TextBook.class));
         // Kiểm tra kết quả được gửi tới output boundary
         verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class));
     }
@@ -56,10 +56,10 @@ public class AddBookUsecaseTest {
     // Test: Thêm sách ReferenceBook hợp lệ
     @Test
     public void testAddReferenceBookSuccess() throws Exception {
-        // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Arrange: Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockDBBoundary = mock(BookDBBoundary.class);
         AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
-        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
+        AddBookService addBookService = new AddBookService(mockDBBoundary, mockOutputBoundary);
 
         // Dữ liệu cho ReferenceBook 
         AddBookRequestData requestData = new AddBookRequestData(
@@ -76,8 +76,8 @@ public class AddBookUsecaseTest {
         // Act: Gọi phương thức thêm sách
         addBookService.executeAdd(requestData);
 
-        // Assert: Kiểm tra sách được thêm vào repository
-        verify(mockRepository).addBook(any(ReferenceBook.class));
+        // Assert: Kiểm tra sách được thêm vào database boundary
+        verify(mockDBBoundary).saveBook(any(ReferenceBook.class));
         // Kiểm tra kết quả được gửi tới output boundary
         verify(mockOutputBoundary).presentResult(any(AddBookResponseData.class));
     }
@@ -85,10 +85,10 @@ public class AddBookUsecaseTest {
     // Test: Xử lý dữ liệu không hợp lệ (thiếu bookId)
     @Test
     public void testAddBookWithInvalidData() throws Exception {
-        // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Arrange: Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockDBBoundary = mock(BookDBBoundary.class);
         AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
-        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
+        AddBookService addBookService = new AddBookService(mockDBBoundary, mockOutputBoundary);
 
         // Dữ liệu không hợp lệ: Thiếu bookId
         AddBookRequestData requestData = new AddBookRequestData(
@@ -111,10 +111,10 @@ public class AddBookUsecaseTest {
     // Test: Xử lý dữ liệu không hợp lệ (tax không hợp lệ cho ReferenceBook)
     @Test
     public void testAddReferenceBookWithInvalidData() throws Exception {
-        // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Arrange: Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockDBBoundary = mock(BookDBBoundary.class);
         AddBookOutputBoundary mockOutputBoundary = mock(AddBookOutputBoundary.class);
-        AddBookService addBookService = new AddBookService(mockRepository, mockOutputBoundary);
+        AddBookService addBookService = new AddBookService(mockDBBoundary, mockOutputBoundary);
 
         // Dữ liệu không hợp lệ: Tax âm
         AddBookRequestData requestData = new AddBookRequestData(

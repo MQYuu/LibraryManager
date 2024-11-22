@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 import book.averageunitprice.AverageUnitPriceOutputBoundary;
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.entities.ReferenceBook;
 import book.usecase.AverageUnitPriceService;
 import book.averageunitprice.AverageUnitPriceResponseData;
@@ -20,7 +20,7 @@ public class AverageUnitPriceServiceTest {
     @Test
     public void testCalculateAverageUnitPriceSuccess() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
         AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 
@@ -46,7 +46,7 @@ public class AverageUnitPriceServiceTest {
     @Test
     public void testCalculateAverageUnitPriceNoReferenceBooks() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
         AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 
@@ -66,7 +66,7 @@ public class AverageUnitPriceServiceTest {
     @Test
     public void testCalculateAverageUnitPriceNoBooksInRepository() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
         AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 
@@ -85,7 +85,7 @@ public class AverageUnitPriceServiceTest {
     @Test
     public void testCalculateAverageUnitPriceSingleReferenceBook() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);
         AverageUnitPriceOutputBoundary mockOutputBoundary = mock(AverageUnitPriceOutputBoundary.class);
         AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(mockRepository, mockOutputBoundary);
 

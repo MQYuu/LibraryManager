@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import book.database.BookRepository;
+import book.database.BookDBBoundary;  // Sử dụng BookDBBoundary thay vì BookRepository
 import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
@@ -21,8 +21,8 @@ public class TotalBookPriceServiceTest {
     // Test trường hợp có sách hợp lệ trong repository
     @Test
     public void testCalculateTotalBookPriceWithValidBooks() {
-        // Arrange: Mock repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Arrange: Mock BookDBBoundary và output boundary
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);  // Mock BookDBBoundary
         TotalBookPriceOutputBoundary mockOutputBoundary = mock(TotalBookPriceOutputBoundary.class);
         TotalBookPriceService totalBookPriceService = new TotalBookPriceService(mockRepository, mockOutputBoundary);
 
@@ -59,8 +59,8 @@ public class TotalBookPriceServiceTest {
     // Test trường hợp repository trả về danh sách sách trống
     @Test
     public void testCalculateTotalBookPriceWithEmptyBooks() {
-        // Arrange: Mock repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Arrange: Mock BookDBBoundary và output boundary
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);  // Mock BookDBBoundary
         TotalBookPriceOutputBoundary mockOutputBoundary = mock(TotalBookPriceOutputBoundary.class);
         TotalBookPriceService totalBookPriceService = new TotalBookPriceService(mockRepository, mockOutputBoundary);
 
@@ -86,8 +86,8 @@ public class TotalBookPriceServiceTest {
     // Test trường hợp repository trả về null
     @Test
     public void testCalculateTotalBookPriceWithNullBooks() {
-        // Arrange: Mock repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Arrange: Mock BookDBBoundary và output boundary
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);  // Mock BookDBBoundary
         TotalBookPriceOutputBoundary mockOutputBoundary = mock(TotalBookPriceOutputBoundary.class);
         TotalBookPriceService totalBookPriceService = new TotalBookPriceService(mockRepository, mockOutputBoundary);
 

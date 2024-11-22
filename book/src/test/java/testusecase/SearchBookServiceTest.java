@@ -12,7 +12,7 @@ import java.util.List;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import book.database.BookRepository;
+import book.database.BookDBBoundary;  // Thay vì BookRepository
 import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
@@ -21,12 +21,13 @@ import book.searchbook.SearchBookRequestData;
 import book.searchbook.SearchBookResponseData;
 import book.usecase.SearchBookService;
 
-public class SearchBookSeviceTest {
+public class SearchBookServiceTest {
+
     // Test trường hợp tìm kiếm sách TextBook với bookId hợp lệ
     @Test
     public void testSearchBook_ValidBookId_ReturnsTextBooks() {
-        // Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);  // Mock BookDBBoundary
         SearchBookOutputBoundary mockOutputBoundary = mock(SearchBookOutputBoundary.class);
 
         // Dữ liệu mẫu: Một sách TextBook với bookId là "T001"
@@ -46,14 +47,14 @@ public class SearchBookSeviceTest {
 
         // Kiểm tra kết quả trả về
         SearchBookResponseData actualResponse = captor.getValue();
-        assertEquals(new SearchBookResponseData(books).toString(), actualResponse.toString());
+        assertEquals(new SearchBookResponseData(books).getFoundBooks(), actualResponse.getFoundBooks());
     }
 
     // Test trường hợp tìm kiếm sách ReferenceBook với bookId hợp lệ
     @Test
     public void testSearchBook_ValidBookId_ReturnsReferenceBooks() {
-        // Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);  // Mock BookDBBoundary
         SearchBookOutputBoundary mockOutputBoundary = mock(SearchBookOutputBoundary.class);
 
         // Dữ liệu mẫu: Một sách ReferenceBook với bookId là "R001"
@@ -79,8 +80,8 @@ public class SearchBookSeviceTest {
     // Test trường hợp tìm kiếm với bookId không hợp lệ
     @Test
     public void testSearchBook_InvalidBookId_ReturnsEmptyList() {
-        // Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);  // Mock BookDBBoundary
         SearchBookOutputBoundary mockOutputBoundary = mock(SearchBookOutputBoundary.class);
 
         // Dữ liệu mẫu: bookId không hợp lệ, danh sách trả về rỗng
@@ -105,8 +106,8 @@ public class SearchBookSeviceTest {
     // Test đảm bảo phương thức searchBooksById của repository được gọi đúng cách
     @Test
     public void testSearchBook_RepositoryMethodCalled() {
-        // Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        // Tạo mock cho BookDBBoundary và output boundary
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);  // Mock BookDBBoundary
         SearchBookOutputBoundary mockOutputBoundary = mock(SearchBookOutputBoundary.class);
 
         // Tạo service

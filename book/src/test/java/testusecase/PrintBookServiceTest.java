@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import book.database.BookRepository;
+import book.database.BookDBBoundary; // Sử dụng BookDBBoundary interface
 import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
@@ -20,7 +20,7 @@ public class PrintBookServiceTest {
     @Test
     public void testPrintBookWithValidBooks() {
         // Arrange: Mock repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class); // Thay từ BookRepository sang BookDBBoundary
         PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
         PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
 
@@ -46,7 +46,7 @@ public class PrintBookServiceTest {
     @Test
     public void testPrintBookWithEmptyBooks() {
         // Arrange: Mock repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class); // Thay từ BookRepository sang BookDBBoundary
         PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
         PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
 
@@ -67,7 +67,7 @@ public class PrintBookServiceTest {
     @Test
     public void testPrintBookWithNullBooks() {
         // Arrange: Mock repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class); // Thay từ BookRepository sang BookDBBoundary
         PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
         PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
 
@@ -88,7 +88,7 @@ public class PrintBookServiceTest {
     @Test
     public void testPrintBookWithNullBookInList() {
         // Arrange: Mock repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class); // Thay từ BookRepository sang BookDBBoundary
         PrintBookOutputBoundary mockOutputBoundary = mock(PrintBookOutputBoundary.class);
         PrintBookService printBookService = new PrintBookService(mockRepository, mockOutputBoundary);
 

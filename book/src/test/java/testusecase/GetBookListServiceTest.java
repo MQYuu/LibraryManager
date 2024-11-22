@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
-import book.database.BookRepository;
+import book.database.BookDBBoundary; // Sử dụng BookDBBoundary interface
 import book.entities.Book;
 import book.entities.ReferenceBook;
 import book.entities.TextBook;
@@ -21,7 +21,7 @@ public class GetBookListServiceTest {
     @Test
     public void testGetBookList() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class); // Thay đổi từ BookRepository thành BookDBBoundary
         GetBookListOutputBoundary mockOutputBoundary = mock(GetBookListOutputBoundary.class);
 
         // Tạo các sách giả lập
@@ -32,7 +32,7 @@ public class GetBookListServiceTest {
         // Danh sách sách giả lập
         List<Book> mockBookList = Arrays.asList(book1, book2, book3);
 
-        // Giả lập hành động lấy sách từ repository
+        // Giả lập hành động lấy sách từ repository thông qua BookDBBoundary
         when(mockRepository.getAllBooks()).thenReturn(mockBookList);
 
         // Tạo đối tượng dịch vụ

@@ -4,7 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.junit.Test;
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.deletebook.DeleteBookOutputBoundary;
 import book.deletebook.DeleteBookRequestData;
 import book.deletebook.DeleteBookResponseData;
@@ -15,12 +15,12 @@ public class DeleteBookServiceTest {
     @Test
     public void testDeleteBookSuccess() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);
         DeleteBookOutputBoundary mockOutputBoundary = mock(DeleteBookOutputBoundary.class);
         DeleteBookService deleteBookService = new DeleteBookService(mockRepository, mockOutputBoundary);
 
         // Giả lập hành động xóa sách thành công
-        when(mockRepository.deleteBook("T001")).thenReturn(true);
+        doReturn(true).when(mockRepository).deleteBook("T001");
 
         // Dữ liệu yêu cầu xóa sách
         DeleteBookRequestData requestData = new DeleteBookRequestData("T001");
@@ -39,12 +39,12 @@ public class DeleteBookServiceTest {
     @Test
     public void testDeleteBookFailure() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);
         DeleteBookOutputBoundary mockOutputBoundary = mock(DeleteBookOutputBoundary.class);
         DeleteBookService deleteBookService = new DeleteBookService(mockRepository, mockOutputBoundary);
 
         // Giả lập hành động xóa sách không thành công
-        when(mockRepository.deleteBook("T001")).thenReturn(false);
+        doReturn(false).when(mockRepository).deleteBook("T001");
 
         // Dữ liệu yêu cầu xóa sách
         DeleteBookRequestData requestData = new DeleteBookRequestData("T001");
@@ -63,12 +63,12 @@ public class DeleteBookServiceTest {
     @Test
     public void testDeleteBookNotFound() {
         // Arrange: Tạo mock cho repository và output boundary
-        BookRepository mockRepository = mock(BookRepository.class);
+        BookDBBoundary mockRepository = mock(BookDBBoundary.class);
         DeleteBookOutputBoundary mockOutputBoundary = mock(DeleteBookOutputBoundary.class);
         DeleteBookService deleteBookService = new DeleteBookService(mockRepository, mockOutputBoundary);
 
         // Giả lập rằng không tìm thấy sách với ID "T001"
-        when(mockRepository.deleteBook("T001")).thenReturn(false);
+        doReturn(false).when(mockRepository).deleteBook("T001");
 
         // Dữ liệu yêu cầu xóa sách
         DeleteBookRequestData requestData = new DeleteBookRequestData("T001");
