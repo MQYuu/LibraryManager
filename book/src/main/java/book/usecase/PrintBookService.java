@@ -3,7 +3,7 @@ package book.usecase;
 import java.util.ArrayList;
 import java.util.List;
 
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.entities.Book;
 import book.printbooklist.PrintBookListInputBoundary;
 import book.printbooklist.PrintBookOutputBoundary;
@@ -13,17 +13,17 @@ import book.entities.ReferenceBook;
 import book.entities.TextBook;
 
 public class PrintBookService implements PrintBookListInputBoundary {
-    private BookRepository bookRepository;
+    private BookDBBoundary bookDBBoundary;
     private PrintBookOutputBoundary printBookOutputBoundary;
 
-    public PrintBookService(BookRepository bookRepository, PrintBookOutputBoundary printBookOutputBoundary) {
-        this.bookRepository = bookRepository;
+    public PrintBookService(BookDBBoundary bookDBBoundary, PrintBookOutputBoundary printBookOutputBoundary) {
+        this.bookDBBoundary = bookDBBoundary;
         this.printBookOutputBoundary = printBookOutputBoundary;
     }
 
     @Override
     public void printBook() {
-        List<Book> books = bookRepository.getAllBooks();
+        List<Book> books = bookDBBoundary.getAllBooks();
         if (books == null) {
             books = new ArrayList<>(); // Tránh NullPointerException
         }

@@ -1,6 +1,6 @@
 package book.usecase;
 
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.entities.Book;
 import book.totalbookprice.TotalBookPriceInputBoundary;
 import book.totalbookprice.TotalBookPriceOutputBoundary;
@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TotalBookPriceService implements TotalBookPriceInputBoundary {
-    private BookRepository bookRepository;
+    private BookDBBoundary bookRepository;
     private TotalBookPriceOutputBoundary totalBookPriceOutputBoundary;
 
-    public TotalBookPriceService(BookRepository bookRepository,
+    public TotalBookPriceService(BookDBBoundary bookRepository,
             TotalBookPriceOutputBoundary totalBookPriceOutputBoundary) {
         this.bookRepository = bookRepository;
         this.totalBookPriceOutputBoundary = totalBookPriceOutputBoundary;

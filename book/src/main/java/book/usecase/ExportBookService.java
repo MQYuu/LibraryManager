@@ -2,7 +2,7 @@ package book.usecase;
 
 import java.util.List;
 
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.entities.Book;
 import book.exportbook.ExportBookInputBoundary;
 import book.exportbook.ExportBookOutputBoundary;
@@ -12,10 +12,10 @@ import book.exportbook.ExportBookResponseData;
 import java.util.stream.Collectors;
 
 public class ExportBookService implements ExportBookInputBoundary {
-    private BookRepository bookRepository;
+    private BookDBBoundary bookRepository;
     private ExportBookOutputBoundary exportBookOutputBoundary;
 
-    public ExportBookService(BookRepository bookRepository, ExportBookOutputBoundary exportBookOutputBoundary) {
+    public ExportBookService(BookDBBoundary bookRepository, ExportBookOutputBoundary exportBookOutputBoundary) {
         this.bookRepository = bookRepository;
         this.exportBookOutputBoundary = exportBookOutputBoundary;
     }

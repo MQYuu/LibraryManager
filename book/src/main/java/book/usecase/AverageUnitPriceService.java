@@ -3,16 +3,16 @@ package book.usecase;
 import book.averageunitprice.AverageUnitPriceInputBoundary;
 import book.averageunitprice.AverageUnitPriceOutputBoundary;
 import book.averageunitprice.AverageUnitPriceResponseData;
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.entities.ReferenceBook;
 
 import book.entities.Book;
 
 public class AverageUnitPriceService implements AverageUnitPriceInputBoundary {
-    private BookRepository repository;
+    private BookDBBoundary repository;
     private AverageUnitPriceOutputBoundary averageUnitPriceOutputBoundary;
 
-    public AverageUnitPriceService(BookRepository repository, AverageUnitPriceOutputBoundary averageUnitPriceOutputBoundary) {
+    public AverageUnitPriceService(BookDBBoundary repository, AverageUnitPriceOutputBoundary averageUnitPriceOutputBoundary) {
         this.repository = repository;
         this.averageUnitPriceOutputBoundary = averageUnitPriceOutputBoundary;
     }

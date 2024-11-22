@@ -1,7 +1,7 @@
 package book;
 
 import book.database.BookMySQL;
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 
 import book.addbook.AddBookPresenter;
 import book.ui.addbook.AddBookFormController;
@@ -36,16 +36,15 @@ import book.ui.printbook.PrintBookResultForm;
 import book.totalbookprice.TotalBookPriceInputBoundary;
 import book.totalbookprice.TotalBookPriceOutputBoundary;
 import book.totalbookprice.TotalBookPricePresenter;
-import book.ui.totalbookprice.TotalBookPriceFormController; // Import thêm TotalBookPriceFormController
-import book.usecase.TotalBookPriceService;  // Import thêm TotalBookPriceService
+import book.ui.totalbookprice.TotalBookPriceFormController;
+import book.usecase.TotalBookPriceService;
 import book.ui.totalbookprice.TotalBookPriceResultForm;
 
-import book.ui.averageunitprice.AverageUnitPriceFormController; // Import AverageUnitPriceFormController
+import book.ui.averageunitprice.AverageUnitPriceFormController;
 import book.ui.averageunitprice.AverageUnitPriceResultForm;
-import book.usecase.AverageUnitPriceService;  // Import AverageUnitPriceService
-import book.averageunitprice.AverageUnitPricePresenter; // Import AverageUnitPricePresenter
+import book.usecase.AverageUnitPriceService;
+import book.averageunitprice.AverageUnitPricePresenter;
 
-// Import các lớp liên quan đến xuất sách
 import book.ui.exportbook.ExportBookFormController;
 import book.usecase.ExportBookService;
 import book.exportbook.ExportBookPresenter;
@@ -54,26 +53,17 @@ import book.ui.exportbook.ExportBookResultForm;
 public class App {
     public static void main(String[] args) {
         // Khởi tạo các thành phần cần thiết
-        BookMySQL db = new BookMySQL(); // Khởi tạo BookMySQL cho kết nối cơ sở dữ liệu
-        BookRepository repository = new BookRepository(db); // Khởi tạo BookRepository với db
+        BookDBBoundary db = new BookMySQL(); // Khởi tạo BookMySQL trực tiếp như BookDBBoundary
 
-        // Khởi tạo các controller và dịch vụ
-        AddBookFormController addBookFormController = createAddBookController(repository);
-        EditBookFormController editBookFormController = createEditBookController(repository);
-        DeleteBookFormController deleteBookFormController = createDeleteBookController(repository);
-        SearchBookFormController searchBookFormController = createSearchBookController(repository);
-
-        // Khởi tạo PrintBookFormController và các thành phần liên quan đến in sách
-        PrintBookFormController printBookFormController = createPrintBookController(repository);
-
-        // Khởi tạo TotalBookPriceFormController và các thành phần liên quan đến tính tổng giá sách
-        TotalBookPriceFormController totalBookPriceFormController = createTotalBookPriceController(repository);
-
-        // Khởi tạo AverageUnitPriceFormController và các thành phần liên quan đến tính trung bình đơn giá sách tham khảo
-        AverageUnitPriceFormController averageUnitPriceFormController = createAverageUnitPriceController(repository);
-
-        // Khởi tạo ExportBookFormController và các thành phần liên quan đến xuất sách
-        ExportBookFormController exportBookFormController = createExportBookController(repository);
+        // Khởi tạo các controller và dịch vụ với db
+        AddBookFormController addBookFormController = createAddBookController(db);
+        EditBookFormController editBookFormController = createEditBookController(db);
+        DeleteBookFormController deleteBookFormController = createDeleteBookController(db);
+        SearchBookFormController searchBookFormController = createSearchBookController(db);
+        PrintBookFormController printBookFormController = createPrintBookController(db);
+        TotalBookPriceFormController totalBookPriceFormController = createTotalBookPriceController(db);
+        AverageUnitPriceFormController averageUnitPriceFormController = createAverageUnitPriceController(db);
+        ExportBookFormController exportBookFormController = createExportBookController(db);
 
         // Tạo MainForm và liên kết với các controller
         MainForm mainForm = new MainForm(
@@ -82,81 +72,76 @@ public class App {
                 deleteBookFormController,
                 searchBookFormController, 
                 printBookFormController,
-                totalBookPriceFormController, // Thêm TotalBookPriceFormController vào MainForm
-                averageUnitPriceFormController, // Thêm AverageUnitPriceFormController vào MainForm
-                exportBookFormController // Thêm ExportBookFormController vào MainForm
+                totalBookPriceFormController, 
+                averageUnitPriceFormController, 
+                exportBookFormController
         );
 
         // Tạo và khởi tạo GetBookListService
         GetBookListPresenter getBookListPresenter = new GetBookListPresenter(mainForm);
-        GetBookListService getBookListService = new GetBookListService(repository, getBookListPresenter);
+        GetBookListService getBookListService = new GetBookListService(db, getBookListPresenter);
 
         // Khởi tạo MainFormController
         MainFormController mainFormController = new MainFormController(getBookListService);
 
         // Gọi loadBooks để tải sách 
         mainFormController.loadBooks();
-        //Hiển thị MainForm
+        // Hiển thị MainForm
         mainForm.setVisible(true);
     }
 
     // Các phương thức tạo controller
 
-    private static AddBookFormController createAddBookController(BookRepository repository) {
+    private static AddBookFormController createAddBookController(BookDBBoundary db) {
         AddBookResultForm resultForm = new AddBookResultForm();
         AddBookPresenter addBookPresenter = new AddBookPresenter(resultForm);
-        AddBookService addBookService = new AddBookService(repository, addBookPresenter);
+        AddBookService addBookService = new AddBookService(db, addBookPresenter);
         return new AddBookFormController(addBookService);
     }
 
-    private static EditBookFormController createEditBookController(BookRepository repository) {
+    private static EditBookFormController createEditBookController(BookDBBoundary db) {
         EditBookPresenter editBookPresenter = new EditBookPresenter();
-        EditBookService editBookService = new EditBookService(repository, editBookPresenter);
+        EditBookService editBookService = new EditBookService(db, editBookPresenter);
         return new EditBookFormController(editBookService);
     }
 
-    private static DeleteBookFormController createDeleteBookController(BookRepository repository) {
+    private static DeleteBookFormController createDeleteBookController(BookDBBoundary db) {
         DeleteBookPresenter deleteBookPresenter = new DeleteBookPresenter();
-        DeleteBookService deleteBookService = new DeleteBookService(repository, deleteBookPresenter);
+        DeleteBookService deleteBookService = new DeleteBookService(db, deleteBookPresenter);
         return new DeleteBookFormController(deleteBookService);
     }
 
-    private static SearchBookFormController createSearchBookController(BookRepository repository) {
+    private static SearchBookFormController createSearchBookController(BookDBBoundary db) {
         SearchBookPresenter searchBookPresenter = new SearchBookPresenter();
-        SearchBookService searchBookService = new SearchBookService(repository, searchBookPresenter);
+        SearchBookService searchBookService = new SearchBookService(db, searchBookPresenter);
         return new SearchBookFormController(searchBookService);
     }
 
-    // Phương thức tạo PrintBookFormController
-    private static PrintBookFormController createPrintBookController(BookRepository repository) {
+    private static PrintBookFormController createPrintBookController(BookDBBoundary db) {
         PrintBookResultForm printBookResultForm = new PrintBookResultForm();
         PrintBookOutputBoundary printBookOutputBoundary = new PrintBookPresenter(printBookResultForm);
-        PrintBookListInputBoundary printBookService = new PrintBookService(repository, printBookOutputBoundary);
+        PrintBookListInputBoundary printBookService = new PrintBookService(db, printBookOutputBoundary);
         return new PrintBookFormController(printBookService);
     }
 
-    // Phương thức tạo TotalBookPriceFormController
-    private static TotalBookPriceFormController createTotalBookPriceController(BookRepository repository) {
+    private static TotalBookPriceFormController createTotalBookPriceController(BookDBBoundary db) {
         TotalBookPriceResultForm totalBookPriceResultForm = new TotalBookPriceResultForm();
         TotalBookPriceOutputBoundary totalBookPriceOutputBoundary = new TotalBookPricePresenter(totalBookPriceResultForm);
-        TotalBookPriceInputBoundary totalBookPriceService = new TotalBookPriceService(repository, totalBookPriceOutputBoundary);
+        TotalBookPriceInputBoundary totalBookPriceService = new TotalBookPriceService(db, totalBookPriceOutputBoundary);
         return new TotalBookPriceFormController(totalBookPriceService);
     }
 
-    // Phương thức tạo AverageUnitPriceFormController
-    private static AverageUnitPriceFormController createAverageUnitPriceController(BookRepository repository) {
+    private static AverageUnitPriceFormController createAverageUnitPriceController(BookDBBoundary db) {
         AverageUnitPriceResultForm averageUnitPriceResultForm = new AverageUnitPriceResultForm();
         AverageUnitPricePresenter averageUnitPricePresenter = new AverageUnitPricePresenter(averageUnitPriceResultForm);
-        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(repository, averageUnitPricePresenter);
+        AverageUnitPriceService averageUnitPriceService = new AverageUnitPriceService(db, averageUnitPricePresenter);
         return new AverageUnitPriceFormController(averageUnitPriceService);
     }
 
-    // Phương thức tạo ExportBookFormController
-    private static ExportBookFormController createExportBookController(BookRepository repository) {
-        // Khởi tạo các thành phần liên quan đến xuất sách
+    private static ExportBookFormController createExportBookController(BookDBBoundary db) {
         ExportBookResultForm exportBookResultForm = new ExportBookResultForm();
         ExportBookPresenter exportBookPresenter = new ExportBookPresenter(exportBookResultForm);
-        ExportBookService exportBookService = new ExportBookService(repository, exportBookPresenter);
+        ExportBookService exportBookService = new ExportBookService(db, exportBookPresenter);
         return new ExportBookFormController(exportBookService);
     }
 }

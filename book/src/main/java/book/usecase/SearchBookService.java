@@ -1,6 +1,6 @@
 package book.usecase;
 
-import book.database.BookRepository;
+import book.database.BookDBBoundary;
 import book.searchbook.SearchBookInputBoundary;
 import book.searchbook.SearchBookOutputBoundary;
 import book.searchbook.SearchBookRequestData;
@@ -9,10 +9,10 @@ import book.entities.Book;
 import java.util.List;
 
 public class SearchBookService implements SearchBookInputBoundary {
-    private BookRepository bookRepository;
+    private BookDBBoundary bookRepository;
     private SearchBookOutputBoundary searchBookOutputBoundary;
 
-    public SearchBookService(BookRepository bookRepository, SearchBookOutputBoundary searchBookOutputBoundary) {
+    public SearchBookService(BookDBBoundary bookRepository, SearchBookOutputBoundary searchBookOutputBoundary) {
         this.bookRepository = bookRepository;
         this.searchBookOutputBoundary = searchBookOutputBoundary;
     }
